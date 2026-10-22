@@ -17,6 +17,8 @@ npm run dev        # http://localhost:4321
 npm run build      # type check + tests + build + SEO/link/claims verification
 npm test           # data tests only
 npm run report:state-laws   # regenerate docs/STATE_LAW_REVIEW.md
+npm run preview:headers     # serve dist/ with public/_headers applied (CSP etc.)
+npm run assets:brand        # regenerate share image + icons (needs Chromium)
 npm run preview    # serve the built site
 ```
 
@@ -54,5 +56,6 @@ counsel reviews that state. To publish one:
 | Resource articles (Markdown) | `src/content/resources/` — schema in `src/content.config.ts` |
 
 Read `PROJECT_CONTEXT.md` before editing content, `docs/COMPLIANCE.md` for
-the compliance checklist, and `CONTENT_PENDING.md` for what is still needed
+the compliance checklist, `docs/SEO.md` for the technical SEO setup and
+launch switches, and `CONTENT_PENDING.md` for what is still needed
 before launch.

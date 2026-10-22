@@ -9,6 +9,8 @@
  *   - a canonical tag on every indexable page
  *   - placeholder pages (data-placeholder) that are not noindex
  *   - prohibited claims in visible text (see CLAIM_RULES / docs/COMPLIANCE.md)
+ *   - structured data (JSON-LD) that does not parse or lacks the fields
+ *     Google needs for that type, and missing Open Graph / Twitter image tags
  *   - indexable state pages whose main content is too similar to another
  *     state page (Google treats near-duplicate location pages as doorways)
  *
@@ -66,6 +68,38 @@ const visibleText = (html) =>
 
 const decode = (s) => s.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"');
 
+/** Fields Google needs (or strongly expects) for each structured data type we emit. */
+const SCHEMA_REQUIRED = {
+  Organization: ['name', 'url', 'logo'],
+  WebSite: ['name', 'url'],
+  Service: ['name', 'provider', 'areaServed'],
+  FAQPage: ['mainEntity'],
+  BreadcrumbList: ['itemListElement'],
+  Article: ['headline', 'datePublished', 'author', 'image'],
+};
+
+function checkSchema(page, data) {
+  const problems = [];
+  if (data['@context'] !== 'https://schema.org') problems.push('missing @context https://schema.org');
+  const type = data['@type'];
+  const required = SCHEMA_REQUIRED[type];
+  if (!required) return [`unexpected @type "${type}" — add it to SCHEMA_REQUIRED`];
+  for (const field of required) {
+    const value = data[field];
+    if (value === undefined || value === '' || (Array.isArray(value) && value.length === 0)) problems.push(`${type} missing ${field}`);
+  }
+  if (type === 'FAQPage') {
+    for (const q of data.mainEntity ?? []) if (q['@type'] !== 'Question' || !q.name || !q.acceptedAnswer?.text) problems.push('FAQPage has an incomplete Question');
+  }
+  if (type === 'BreadcrumbList') {
+    (data.itemListElement ?? []).forEach((item, i) => {
+      if (item.position !== i + 1) problems.push(`breadcrumb position ${item.position} at index ${i}`);
+      if (!/^https:\/\//.test(item.item ?? '')) problems.push(`breadcrumb item not an absolute https URL: ${item.item}`);
+    });
+  }
+  return problems.map((p) => `${page}: structured data: ${p}`);
+}
+
 /** Maximum share of 5-word sequences two indexable state pages may have in common. */
 const MAX_STATE_SIMILARITY = 0.6;
 
@@ -105,6 +139,17 @@ for (const file of await collectHtml(DIST)) {
   if (h1s !== 1) errors.push(`${page}: has ${h1s} <h1> elements (expected 1)`);
   if (!noindex && !is404 && !/<link rel="canonical"/.test(html)) errors.push(`${page}: indexable page has no canonical`);
   if (/data-placeholder=/.test(html) && !noindex) errors.push(`${page}: placeholder content on an indexable page`);
+
+  for (const [, json] of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    try {
+      errors.push(...checkSchema(page, JSON.parse(json)));
+    } catch (e) {
+      errors.push(`${page}: structured data is not valid JSON (${e.message})`);
+    }
+  }
+  for (const tag of ['property="og:image" content="https://', 'name="twitter:card" content="summary_large_image"', 'property="og:image:alt"']) {
+    if (!html.includes(tag)) errors.push(`${page}: missing social tag ${tag.split(' ')[0]}`);
+  }
 
   const text = visibleText(html);
   for (const rule of CLAIM_RULES) {

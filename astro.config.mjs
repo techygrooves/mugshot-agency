@@ -31,5 +31,10 @@ export default defineConfig({
       },
     }),
   ],
-  vite: { plugins: [tailwindcss()] },
+  vite: {
+    plugins: [tailwindcss()],
+    // Emit every script as a file, never inline, so the Content-Security-Policy
+    // in public/_headers can use script-src 'self' without 'unsafe-inline'.
+    build: { assetsInlineLimit: 0 },
+  },
 });

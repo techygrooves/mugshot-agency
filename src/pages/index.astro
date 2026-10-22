@@ -43,9 +43,11 @@ const pillars = [
         </div>
       </div>
 
-      <!-- Illustrative search result card: shows the outcome we work toward. -->
-      <div class="lg:col-span-5" aria-hidden="true">
+      <!-- Illustrative search result card: shows the outcome we work toward. The mock
+           results are hidden from screen readers; the disclaimer caption is not. -->
+      <figure class="lg:col-span-5">
         <div class="rounded-2xl border border-white/10 bg-white p-5 text-left text-slate-700 shadow-2xl shadow-black/30">
+          <div aria-hidden="true">
           <div class="flex items-center gap-3 rounded-full border border-slate-200 px-4 py-2.5">
             <Icon name="search" class="h-4 w-4 text-slate-400" />
             <span class="text-sm text-slate-500">your name</span>
@@ -66,15 +68,16 @@ const pillars = [
               <p class="font-semibold text-navy-700">Community Award Recognizes Local Leader</p>
               <div class="mt-1.5 h-2 w-2/3 rounded bg-slate-200"></div>
             </li>
-            <li class="relative p-3 opacity-40">
+            <li class="relative rounded-lg bg-slate-50 p-3">
               <p class="text-xs text-slate-500">mugshot-site.example</p>
-              <p class="font-semibold text-slate-500 line-through decoration-red-400 decoration-2">Arrest Record &amp; Booking Photo</p>
-              <span class="absolute right-3 top-3 rounded bg-red-50 px-2 py-0.5 text-[10px] font-bold uppercase text-red-500">Removed</span>
+              <p class="font-semibold text-slate-500 line-through decoration-red-500 decoration-2">Arrest Record &amp; Booking Photo</p>
+              <span class="absolute right-3 top-3 rounded bg-red-100 px-2 py-0.5 text-[10px] font-bold uppercase text-red-800">Removed</span>
             </li>
           </ul>
-          <p class="mt-4 border-t border-slate-100 pt-3 text-[11px] text-slate-400">Illustration only. Results vary by situation.</p>
+          </div>
+          <figcaption class="mt-4 border-t border-slate-100 pt-3 text-xs text-slate-500">Illustration only. Results vary by situation.</figcaption>
         </div>
-      </div>
+      </figure>
     </div>
   </section>
 

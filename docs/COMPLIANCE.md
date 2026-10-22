@@ -54,4 +54,5 @@ Summary: 18 states with a law identified, 8 unconfirmed, 24 none found — **0 r
 | Done | Item |
 | --- | --- |
 | ✅ | Semantic headings (one `<h1>` per page, enforced), skip link, visible focus styles, labelled navigation, `aria-current` on active links |
-| ⬜ | Full WCAG 2.2 AA audit, including measured color contrast, before launch (Phase 7) |
+| ✅ | Lighthouse accessibility 100 on every audited page type, including color contrast (see `docs/SEO.md`); legal disclaimers meet contrast minimums and the homepage illustration's disclaimer is exposed to screen readers |
+| ⬜ | Full manual WCAG 2.2 AA audit (keyboard, screen reader) before launch (Phase 7) |
