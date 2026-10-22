@@ -18,4 +18,5 @@ Items needed before launch. Nothing here may be filled in with invented text.
 
 1. ~~50 state pages~~ built (Phase 3); publish each after review + local content
 2. ~~Resources~~: 11 guides (3 in Phase 3, 8 in Phase 6) — every service links at least one
-3. ~~Consultation form~~ (Phase 7); analytics and Search Console (Phase 8)
+3. ~~Consultation form~~ (Phase 7)
+4. ~~Launch tooling~~ (Phase 8): Hostinger package, launch check, `docs/LAUNCH.md`. Remaining: domain, legal pages, Search Console

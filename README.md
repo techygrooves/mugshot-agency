@@ -19,6 +19,8 @@ npm test           # data tests only
 npm run report:state-laws   # regenerate docs/STATE_LAW_REVIEW.md
 npm run preview:headers     # serve dist/ with public/_headers applied (CSP etc.)
 npm run assets:brand        # regenerate share image + icons (needs Chromium)
+npm run package:hostinger   # build + .htaccess + hostinger-site.zip for upload
+npm run launch-check        # what still blocks launch
 npm run preview    # serve the built site
 ```
 
@@ -27,6 +29,12 @@ or description, more than one `<h1>`, a broken internal link, or placeholder
 content on an indexable page, or a prohibited claim such as a guaranteed
 result or presenting the company as a law firm, or published state pages
 that are near-copies of each other (`scripts/verify-site.mjs`).
+
+## Going live on Hostinger
+
+See **`docs/LAUNCH.md`** for the step-by-step guide. Every push to `main`
+also builds a ready-to-upload package: Actions → **Hostinger package** →
+Artifacts → `hostinger-site`.
 
 ## Preview on GitHub Pages
 
@@ -79,5 +87,6 @@ With the drafted copy, the most similar pair is 54%.
 
 Read `PROJECT_CONTEXT.md` before editing content, `docs/COMPLIANCE.md` for
 the compliance checklist, `docs/SEO.md` for the technical SEO setup and
-launch switches, `docs/DESIGN.md` for the design system, and `CONTENT_PENDING.md` for what is still needed
+launch switches, `docs/DESIGN.md` for the design system, `docs/LAUNCH.md` for
+going live, and `CONTENT_PENDING.md` for what is still needed
 before launch.
