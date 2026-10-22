@@ -14,7 +14,9 @@
     "astro": "astro",
     "assets:brand": "node scripts/make-brand-assets.mjs",
     "preview:headers": "node scripts/preview-headers.mjs",
-    "build:preview": "npm run build && node scripts/make-preview.mjs"
+    "build:preview": "npm run build && node scripts/make-preview.mjs",
+    "package:hostinger": "npm run build && node scripts/make-hostinger.mjs",
+    "launch-check": "node scripts/launch-check.mjs"
   },
   "repository": {
     "type": "git",

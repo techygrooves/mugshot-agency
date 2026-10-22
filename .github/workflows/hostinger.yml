@@ -1,0 +1,49 @@
+# ---------------------------------------------------------------------------
+# Build the Hostinger upload package.
+#
+# On every push to main (or by hand), this runs the full build with all
+# checks, adds the Hostinger .htaccess files, runs the launch check, and
+# attaches the result as a downloadable artifact:
+#
+#   Actions → Hostinger package → (latest run) → Artifacts → hostinger-site
+#
+# Download it, then in Hostinger: Files → File Manager → public_html →
+# upload the zip and extract it there. See docs/LAUNCH.md.
+# ---------------------------------------------------------------------------
+name: Hostinger package
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build, add .htaccess, zip
+        run: npm run package:hostinger
+
+      # Reports blockers (e.g. domain not confirmed) without failing the run,
+      # so a pre-launch package can still be downloaded and tested.
+      - name: Launch check
+        run: npm run launch-check || echo "::warning::Launch check found blockers — see the log above."
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hostinger-site
+          path: dist
+          include-hidden-files: true
+          retention-days: 30

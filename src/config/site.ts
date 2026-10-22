@@ -32,6 +32,16 @@ export const site = {
     consultation: 'https://formspree.io/f/xeaajnjj',
   },
 
+  /**
+   * Search engine ownership verification (Phase 8). Paste only the content
+   * value of the meta tag Google Search Console / Bing Webmaster Tools give
+   * you, e.g. 'abc123'. Rendered on every page when set.
+   */
+  verification: {
+    google: null as string | null,
+    bing: null as string | null,
+  },
+
   /** Routes that are placeholders: rendered with noindex and left out of the sitemap. */
   noindexPaths: ['/legal/privacy/', '/legal/terms/'] as string[],
 } as const;

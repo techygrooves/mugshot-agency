@@ -40,8 +40,9 @@ near-copies of each other.
 `public/_headers` (Netlify and Cloudflare Pages format) sets a strict
 Content-Security-Policy, HSTS, `nosniff`, `X-Frame-Options`, Referrer-Policy
 and Permissions-Policy, and caches fingerprinted `/_astro/*` files for a year.
-Test it locally with `npm run build && npm run preview:headers`. On Vercel or
-another host, port these rules to that host's config.
+Test it locally with `npm run build && npm run preview:headers`. For
+**Hostinger**, `npm run package:hostinger` translates the same rules into
+`.htaccess` (see `docs/LAUNCH.md`); on another host, port them to its config.
 
 The consultation form posts to Formspree, so `https://formspree.io` is allowed
 in `form-action` and `connect-src` only. When analytics are added, widen the

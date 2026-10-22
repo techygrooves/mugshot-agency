@@ -4,7 +4,7 @@
  * Changing any of these strings changes a legal disclosure. Check
  * docs/COMPLIANCE.md and get counsel's sign-off first.
  */
-import { site } from './site';
+import { site } from './site.ts';
 
 /** Draft status of the legal pages. Flip to false only after counsel review. */
 export const legalDraft = true;

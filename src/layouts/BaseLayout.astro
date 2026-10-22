@@ -69,6 +69,8 @@ const jsonLd = [organization, ...(isHome ? [website] : []), ...schema.map((s) =>
     <link rel="alternate" type="application/rss+xml" title={`${site.name} — Resources`} href="/resources/rss.xml" />
     <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
     <meta name="theme-color" content="#0b1b33" />
+    {site.verification.google && <meta name="google-site-verification" content={site.verification.google} />}
+    {site.verification.bing && <meta name="msvalidate.01" content={site.verification.bing} />}
 
     <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="en_US" />
