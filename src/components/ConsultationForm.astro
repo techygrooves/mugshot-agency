@@ -1,0 +1,132 @@
+---
+/**
+ * Free consultation form, submitted to Formspree (site.forms.consultation).
+ *
+ * Works without JavaScript (a normal POST; Formspree shows its own
+ * confirmation page). With JavaScript it submits in place and shows the
+ * result inline. The CSP in public/_headers allows formspree.io for
+ * form-action and connect-src — keep them in sync if the endpoint changes.
+ */
+import { site } from '@config/site';
+import { services } from '@data/services';
+import { stateLaws } from '@data/state-laws';
+import ConsentNotice from './ConsentNotice.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  /** Unique prefix for field ids, and recorded with the submission. */
+  id: string;
+}
+const { id } = Astro.props;
+const f = (name: string) => `${id}-${name}`;
+
+const input =
+  'mt-1.5 block w-full rounded-lg border border-navy-100 bg-white px-3.5 py-2.5 text-ink shadow-sm transition placeholder:text-slate-500 focus:border-accent-600 focus:ring-2 focus:ring-accent-500/30 focus:outline-none';
+const label = 'block text-sm font-semibold text-ink';
+---
+<form
+  action={site.forms.consultation}
+  method="POST"
+  class="consultation-form"
+  data-consultation-form
+  novalidate
+  aria-describedby={f('status')}
+>
+  <input type="hidden" name="_subject" value="New consultation request — National Reputation Defense" />
+  <input type="hidden" name="form_source" value={id} />
+  <!-- Honeypot: hidden from people, filled in by bots; Formspree discards those. -->
+  <div class="hidden" aria-hidden="true">
+    <label for={f('gotcha')}>Leave this field empty</label>
+    <input id={f('gotcha')} type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label for={f('name')} class={label}>Full name <span class="text-accent-700" aria-hidden="true">*</span></label>
+      <input id={f('name')} name="name" type="text" autocomplete="name" required class={input} />
+    </div>
+    <div>
+      <label for={f('email')} class={label}>Email address <span class="text-accent-700" aria-hidden="true">*</span></label>
+      <input id={f('email')} name="email" type="email" autocomplete="email" required class={input} />
+    </div>
+    <div>
+      <label for={f('phone')} class={label}>Phone number <span class="font-normal text-slate-500">(optional)</span></label>
+      <input id={f('phone')} name="phone" type="tel" autocomplete="tel" class={input} />
+    </div>
+    <div>
+      <label for={f('state')} class={label}>Your state <span class="text-accent-700" aria-hidden="true">*</span></label>
+      <select id={f('state')} name="state" required class={input}>
+        <option value="">Select a state</option>
+        {stateLaws.map((s) => <option value={s.name}>{s.name}</option>)}
+        <option value="Outside the U.S.">Outside the U.S.</option>
+      </select>
+    </div>
+    <div class="sm:col-span-2">
+      <label for={f('service')} class={label}>What can we help with? <span class="text-accent-700" aria-hidden="true">*</span></label>
+      <select id={f('service')} name="service" required class={input}>
+        <option value="">Choose the closest match</option>
+        {services.map((s) => <option value={s.name}>{s.name}</option>)}
+        <option value="Not sure">Not sure yet</option>
+      </select>
+    </div>
+    <div class="sm:col-span-2">
+      <label for={f('message')} class={label}>Briefly describe your situation <span class="font-normal text-slate-500">(optional)</span></label>
+      <textarea id={f('message')} name="message" rows="4" class={input} placeholder="For example: links to the pages you'd like addressed. Please don't include sensitive details you'd rather discuss by phone."></textarea>
+    </div>
+  </div>
+
+  <div class="mt-6"><ConsentNotice interactive /></div>
+
+  <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center">
+    <button type="submit" class="btn-primary px-6 py-3.5 text-base disabled:cursor-wait disabled:opacity-70" data-submit>
+      <span data-label>Request my free consultation</span>
+      <Icon name="arrow" class="h-4 w-4" />
+    </button>
+    <p class="flex items-center gap-2 text-sm text-slate-600"><Icon name="lock" class="h-4 w-4 text-accent-700" /> Confidential. No obligation.</p>
+  </div>
+
+  <div id={f('status')} class="mt-5 hidden rounded-xl p-4 text-sm" role="status" aria-live="polite" tabindex="-1" data-status></div>
+</form>
+
+<script>
+  type FormspreeError = { errors?: { message: string }[] };
+
+  for (const form of document.querySelectorAll<HTMLFormElement>('[data-consultation-form]')) {
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const button = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const label = button.querySelector<HTMLElement>('[data-label]')!;
+    const idle = label.textContent;
+
+    const show = (kind: 'success' | 'error', html: string) => {
+      status.className = `mt-5 rounded-xl p-4 text-sm ${kind === 'success' ? 'bg-accent-100 text-ink' : 'bg-red-50 text-red-900'}`;
+      status.innerHTML = html;
+      status.focus();
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      button.disabled = true;
+      label.textContent = 'Sending…';
+      try {
+        const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        if (response.ok) {
+          form.reset();
+          show('success', '<strong>Thank you — your request has been received.</strong> We will contact you to discuss your situation, confidentially and with no obligation.');
+        } else {
+          const data = (await response.json().catch(() => ({}))) as FormspreeError;
+          const detail = data.errors?.map((e) => e.message).join(' ') || 'Please check the form and try again.';
+          show('error', `<strong>Your request could not be sent.</strong> ${detail.replace(/[<>&]/g, '')}`);
+        }
+      } catch {
+        show('error', '<strong>Your request could not be sent.</strong> Please check your connection and try again.');
+      } finally {
+        button.disabled = false;
+        label.textContent = idle;
+      }
+    });
+  }
+</script>

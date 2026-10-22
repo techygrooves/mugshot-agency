@@ -1,14 +1,8 @@
 ---
-/**
- * PLACEHOLDER. The consultation form will be implemented later (see
- * CONTENT_PENDING.md). This page is noindex until then.
- */
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/PageHero.astro';
-import Icon from '@components/Icon.astro';
-import ConsentNotice from '@components/ConsentNotice.astro';
-
-const fields = ['Full name', 'Email address', 'Phone number', 'State', 'What can we help with?', 'Describe your situation'];
+import ConsultationForm from '@components/ConsultationForm.astro';
+import ConsultationAside from '@components/ConsultationAside.astro';
 ---
 <BaseLayout title="Free Consultation" description="Request a free, confidential reputation consultation with National Reputation Defense. Serving clients in all 50 states.">
   <PageHero
@@ -20,35 +14,13 @@ const fields = ['Full name', 'Email address', 'Phone number', 'State', 'What can
   <section class="py-16 md:py-20">
     <div class="container-x grid gap-12 lg:grid-cols-12">
       <div class="lg:col-span-7">
-        <div class="rounded-2xl border-2 border-dashed border-navy-100 bg-navy-50 p-8" data-placeholder="consultation-form">
-          <p class="inline-flex rounded-full bg-gold-400/20 px-3 py-1 text-xs font-bold uppercase tracking-wider text-amber-800">Form coming soon</p>
-          <h2 class="mt-4 text-2xl font-bold">Consultation form</h2>
-          <p class="mt-2">The secure consultation form will be available here shortly.</p>
-          <div class="mt-6 grid gap-4 opacity-80 sm:grid-cols-2" aria-hidden="true">
-            {fields.map((label, i) => (
-              <div class:list={[i >= 4 && 'sm:col-span-2']}>
-                <span class="block text-sm font-medium text-ink">{label}</span>
-                <span class:list={['mt-1.5 block rounded-lg border border-navy-100 bg-white', i === 5 ? 'h-28' : 'h-11']}></span>
-              </div>
-            ))}
-          </div>
-          <div class="mt-6 border-t border-navy-100 pt-6"><ConsentNotice /></div>
+        <div class="rounded-2xl border border-navy-100 bg-white p-6 shadow-xl shadow-navy-900/5 sm:p-8">
+          <h2 class="text-2xl font-bold">Tell us about your situation</h2>
+          <p class="mt-2 text-slate-600">It takes about two minutes. Fields marked <span class="text-accent-700">*</span> are required.</p>
+          <div class="mt-6"><ConsultationForm id="contact" /></div>
         </div>
       </div>
-      <aside class="space-y-6 lg:col-span-5">
-        <div class="rounded-2xl border border-navy-100 p-7">
-          <h2 class="text-lg font-bold">What happens next</h2>
-          <ol class="mt-4 space-y-4 text-[15px]">
-            <li class="flex gap-3"><span class="font-display font-bold text-accent-700">1</span> We review your request confidentially.</li>
-            <li class="flex gap-3"><span class="font-display font-bold text-accent-700">2</span> We contact you to discuss your situation and goals.</li>
-            <li class="flex gap-3"><span class="font-display font-bold text-accent-700">3</span> You receive an honest assessment and a recommended plan.</li>
-          </ol>
-        </div>
-        <div class="flex gap-4 rounded-2xl bg-navy-900 p-7 text-slate-300">
-          <Icon name="lock" class="h-6 w-6 shrink-0 text-accent-500" />
-          <p class="text-sm leading-relaxed"><strong class="text-white">Your privacy matters.</strong> Information you share is used only to respond to your request and is never sold.</p>
-        </div>
-      </aside>
+      <div class="lg:col-span-5"><ConsultationAside /></div>
     </div>
   </section>
 </BaseLayout>

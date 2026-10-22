@@ -44,7 +44,9 @@ Summary: 18 states with a law identified, 8 unconfirmed, 24 none found — **0 r
 | Done | Item |
 | --- | --- |
 | ✅ | Draft Privacy Policy and Terms of Service at `/legal/privacy/` and `/legal/terms/`, shown with a "Draft — under legal review" banner and kept `noindex` until approved |
-| ✅ | Consent wording for the future consultation form (`formConsent` in `src/config/compliance.ts`, rendered by `ConsentNotice.astro`): unticked SMS checkbox, consent not a condition of service, STOP opt-out (TCPA); email contact limited to the request (CAN-SPAM for any marketing email) |
+| ✅ | Consultation form live (Phase 7) on `/contact/` and the home page, submitting to Formspree (`site.forms.consultation`). Consent wording from `formConsent` in `src/config/compliance.ts`: optional, unticked SMS checkbox; consent not a condition of service; STOP opt-out (TCPA); email contact limited to the request (CAN-SPAM for any marketing email). The submitted `sms_consent` value is the record of consent — keep submissions |
+| ⚖️ | **The form now collects personal information while the Privacy Policy and Terms are still drafts.** Finalize them promptly. Confirm with counsel that Formspree's terms and data handling are acceptable for the sensitive details people may describe, and consider a data processing agreement |
+| ⬜ | Decide how long submissions are kept in Formspree and the inbox it forwards to, and delete on that schedule |
 | ✅ | No analytics or advertising cookies are used, and the Privacy Policy says so. Update the policy before adding any |
 | ⚖️ | Approve Privacy Policy and Terms text; fill in governing law and privacy contact; then set `legalDraft = false`, add `legalEffectiveDate`, and remove the pages from `site.noindexPaths` |
 | ⚖️ | Confirm obligations under state privacy laws (e.g. CCPA/CPRA) given expected client volume and the sensitivity of criminal-record information |

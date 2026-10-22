@@ -24,8 +24,16 @@ export const site = {
     phone: null as string | null,
   },
 
+  /**
+   * Form endpoints. Formspree forwards submissions to the account owner's
+   * email. If this changes, update the CSP in public/_headers too.
+   */
+  forms: {
+    consultation: 'https://formspree.io/f/xeaajnjj',
+  },
+
   /** Routes that are placeholders: rendered with noindex and left out of the sitemap. */
-  noindexPaths: ['/contact/', '/legal/privacy/', '/legal/terms/'] as string[],
+  noindexPaths: ['/legal/privacy/', '/legal/terms/'] as string[],
 } as const;
 
 export const nav = [

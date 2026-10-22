@@ -1,0 +1,22 @@
+---
+/** "What happens next" + privacy note shown beside the consultation form. */
+import Icon from './Icon.astro';
+interface Props {
+  dark?: boolean;
+}
+const { dark = false } = Astro.props;
+---
+<div class="space-y-6">
+  <div class:list={['rounded-2xl p-7', dark ? 'border border-white/10 bg-white/[0.06]' : 'border border-navy-100']}>
+    <h3 class:list={['text-lg font-bold', dark && '!text-white']}>What happens next</h3>
+    <ol class:list={['mt-4 space-y-4 text-[15px]', dark && 'text-slate-300']}>
+      <li class="flex gap-3"><span class:list={['font-display font-bold', dark ? 'text-accent-500' : 'text-accent-700']}>1</span> We review your request confidentially.</li>
+      <li class="flex gap-3"><span class:list={['font-display font-bold', dark ? 'text-accent-500' : 'text-accent-700']}>2</span> We contact you to discuss your situation and goals.</li>
+      <li class="flex gap-3"><span class:list={['font-display font-bold', dark ? 'text-accent-500' : 'text-accent-700']}>3</span> You receive an honest assessment and a recommended plan — with no obligation.</li>
+    </ol>
+  </div>
+  <div class:list={['flex gap-4 rounded-2xl p-7', dark ? 'border border-white/10 bg-white/[0.06] text-slate-300' : 'bg-navy-900 text-slate-300']}>
+    <Icon name="lock" class="h-6 w-6 shrink-0 text-accent-500" />
+    <p class="text-sm leading-relaxed"><strong class="text-white">Your privacy matters.</strong> Information you share is used only to respond to your request and is never sold.</p>
+  </div>
+</div>

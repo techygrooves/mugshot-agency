@@ -38,6 +38,8 @@ self-hosted via Fontsource; Inter's latin subset is preloaded. Headings use
 | `PageHero` | Dark banner for inner pages. Pass `slot="aside"` (e.g. `AssuranceCard`) to fill the right column; otherwise a faint shield mark balances it. |
 | `AssuranceCard` | Four commitments about *how we work* — never claims about results. |
 | `ServiceCard` | Compact row on phones, tall card from 640px. |
+| `HeroResults` | Homepage 3D search-results card: stacked layers for depth, pointer tilt (desktop), floating status chips, and a looping "slide" in which the mugshot result drops below the positive results and is struck through. Static final state without JS or under reduced motion. Its disclaimer caption stays readable by screen readers. |
+| `ConsultationForm` / `ConsultationAside` | The Formspree form (inline success/error, honeypot, consent block) and the "what happens next" panel; used on `/contact/` and in the home page's `#consultation` section. |
 | `CtaBand`, `FaqList`, `SectionHeading`, `Breadcrumbs`, `Icon`, `Logo` | As named. Icons are inline 24px line icons in `Icon.astro`. |
 | `.btn-primary` / `.btn-secondary` / `.btn-on-dark` | The only three button styles. |
 

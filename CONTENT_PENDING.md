@@ -6,7 +6,7 @@ Items needed before launch. Nothing here may be filled in with invented text.
 | --- | --- | --- |
 | Domain name | Placeholder `nationalreputationdefense.com` — confirm or replace | `src/config/site.ts` → `url`, then set `urlConfirmed: true` (robots.txt blocks all crawlers until then — see `docs/SEO.md`) |
 | Business email / phone | Not provided | `src/config/site.ts` → `contact` |
-| Consultation form | Placeholder (to be implemented later) | `src/pages/contact.astro` — remove from `noindexPaths` when live |
+| Consultation form | **Live** — Formspree endpoint `xeaajnjj`, on `/contact/` and the home page | `src/components/ConsultationForm.astro`, `site.forms` |
 | Privacy Policy | Drafted — needs counsel review and a privacy contact | `src/pages/legal/privacy.astro`; then `legalDraft` in `src/config/compliance.ts` |
 | Terms of Service | Drafted — needs counsel review and governing law | `src/pages/legal/terms.astro` |
 | State mugshot-law review | Research done for all 50 states, 0 reviewed | `docs/STATE_LAW_REVIEW.md`, then `reviewed: true` in `src/data/state-laws.ts` |
@@ -18,4 +18,4 @@ Items needed before launch. Nothing here may be filled in with invented text.
 
 1. ~~50 state pages~~ built (Phase 3); publish each after review + local content
 2. ~~Resources~~: 11 guides (3 in Phase 3, 8 in Phase 6) — every service links at least one
-3. Consultation form, analytics, Search Console (Phases 7–8)
+3. ~~Consultation form~~ (Phase 7); analytics and Search Console (Phase 8)

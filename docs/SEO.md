@@ -43,8 +43,9 @@ and Permissions-Policy, and caches fingerprinted `/_astro/*` files for a year.
 Test it locally with `npm run build && npm run preview:headers`. On Vercel or
 another host, port these rules to that host's config.
 
-When the consultation form or analytics are added, widen the CSP only for
-that provider (`form-action`, `connect-src`, `script-src`).
+The consultation form posts to Formspree, so `https://formspree.io` is allowed
+in `form-action` and `connect-src` only. When analytics are added, widen the
+CSP only for that provider.
 
 ## Lighthouse (October 2026, local build, mobile unless noted)
 
