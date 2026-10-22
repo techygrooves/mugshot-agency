@@ -1,0 +1,25 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import ServiceCard from '@components/ServiceCard.astro';
+import CtaBand from '@components/CtaBand.astro';
+import { services } from '@data/services';
+---
+<BaseLayout
+  title="Reputation Management Services"
+  description="Mugshot removal, search result suppression, personal and business reputation management, data broker removal and brand monitoring — nationwide."
+  schema={[{ '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Services', item: new URL('/services/', Astro.site).href }] }]}
+>
+  <PageHero
+    eyebrow="Services"
+    title="Reputation services for individuals and businesses"
+    lead="Each situation is different. Most clients benefit from a combination of the services below — we will recommend only what you need."
+    crumbs={[{ label: 'Services', href: '/services/' }]}
+  />
+  <section class="bg-navy-50 py-20">
+    <div class="container-x grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {services.map((service) => <ServiceCard service={service} />)}
+    </div>
+  </section>
+  <CtaBand title="Not sure which service you need?" body="Describe your situation and we will recommend the right approach. The consultation is free and confidential." />
+</BaseLayout>

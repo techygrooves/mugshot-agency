@@ -1,0 +1,49 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import CtaBand from '@components/CtaBand.astro';
+import Icon from '@components/Icon.astro';
+import { site } from '@config/site';
+
+const values = [
+  { icon: 'lock', title: 'Discretion', body: 'People come to us at difficult moments. We treat every situation with privacy and respect.' },
+  { icon: 'chat', title: 'Honesty', body: 'We tell you what we believe is achievable — including when the answer is “not much” — before you spend a dollar.' },
+  { icon: 'shield', title: 'Integrity', body: 'We only use legitimate, policy-compliant methods. No fake reviews, no deceptive content, no gimmicks.' },
+  { icon: 'clock', title: 'Persistence', body: 'Removal and suppression take follow-through. We stay on it and keep you informed.' },
+] as const;
+---
+<BaseLayout
+  title="About Us"
+  description="National Reputation Defense is a nationwide online reputation management company helping people and businesses take control of what appears about them online."
+>
+  <PageHero
+    eyebrow="About"
+    title="Helping people move forward online"
+    lead={`${site.name} is an online reputation management company serving individuals and businesses in all 50 states.`}
+    crumbs={[{ label: 'About', href: '/about/' }]}
+  />
+  <section class="py-16 md:py-20">
+    <div class="container-x prose-body max-w-3xl text-lg">
+      <h2>Why we exist</h2>
+      <p>A single search can shape how employers, customers, landlords and communities see you. Too often, what appears is outdated, out of context or simply unfair — an old booking photo, a misleading article, or personal details that were never meant to be public.</p>
+      <p>We started {site.name} to give people a straightforward, ethical way to take back control. We combine removal requests, search suppression, privacy protection and monitoring into practical plans built around each client’s goals.</p>
+      <h2>What we are — and are not</h2>
+      <p>We are a reputation management company. We are <strong>not</strong> a law firm, we do not provide legal advice, and we do not represent clients in court. When a situation calls for legal help — such as expungement, record sealing or a defamation claim — we will tell you so and suggest you speak with a licensed attorney in your state.</p>
+    </div>
+  </section>
+  <section class="bg-navy-50 py-16 md:py-20">
+    <div class="container-x">
+      <h2 class="text-3xl font-extrabold">What we stand for</h2>
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {values.map((v) => (
+          <div class="rounded-2xl border border-navy-100 bg-white p-6">
+            <span class="grid h-11 w-11 place-items-center rounded-xl bg-accent-100 text-accent-700"><Icon name={v.icon} /></span>
+            <h3 class="mt-4 text-lg font-bold">{v.title}</h3>
+            <p class="mt-2 text-[15px] leading-relaxed">{v.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>

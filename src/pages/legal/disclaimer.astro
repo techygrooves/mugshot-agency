@@ -1,0 +1,21 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import { site } from '@config/site';
+---
+<BaseLayout title="Disclaimer" description="Important information about National Reputation Defense: we are not a law firm, do not provide legal advice and cannot guarantee specific results.">
+  <PageHero title="Disclaimer" crumbs={[{ label: 'Disclaimer', href: '/legal/disclaimer/' }]} />
+  <section class="py-16">
+    <div class="container-x prose-body max-w-3xl">
+      <h2>Not a law firm</h2>
+      <p>{site.name} is an online reputation management company. We are not a law firm, our team members do not act as attorneys on behalf of clients, and nothing on this website or in our communications is legal advice. Using our services or contacting us does not create an attorney–client relationship.</p>
+      <p>If your situation involves legal matters — including but not limited to expungement, record sealing, defamation or privacy claims — you should consult a licensed attorney in your state.</p>
+      <h2>No guaranteed results</h2>
+      <p>Decisions to remove, update or de-index content are made by the third-party websites, platforms and search engines that host or index it. Search rankings change over time. For these reasons we cannot and do not guarantee that any specific content will be removed, suppressed or kept from reappearing. Any timelines we share are estimates.</p>
+      <h2>Lawful, ethical methods</h2>
+      <p>We use only legitimate removal processes and white-hat search engine optimization. We do not create fake reviews, impersonate others or publish misleading content.</p>
+      <h2>Information on this website</h2>
+      <p>Content on this website is provided for general informational purposes only and may not reflect the most current laws or platform policies in your state. Illustrations are examples and do not represent the results of any specific client.</p>
+    </div>
+  </section>
+</BaseLayout>

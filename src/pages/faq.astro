@@ -1,0 +1,18 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import FaqList from '@components/FaqList.astro';
+import CtaBand from '@components/CtaBand.astro';
+import { generalFaqs } from '@data/faqs';
+---
+<BaseLayout
+  title="Frequently Asked Questions"
+  description="Answers to common questions about mugshot removal, search suppression, personal information removal, confidentiality and how reputation management works."
+  schema={[{ '@type': 'FAQPage', mainEntity: generalFaqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }]}
+>
+  <PageHero eyebrow="FAQ" title="Frequently asked questions" lead="Straight answers about what we do, how we do it and what to expect." crumbs={[{ label: 'FAQ', href: '/faq/' }]} />
+  <section class="py-16 md:py-20">
+    <div class="container-x max-w-3xl"><FaqList faqs={generalFaqs} /></div>
+  </section>
+  <CtaBand title="Still have questions?" body="Reach out for a free, confidential consultation and we will answer them for your specific situation." />
+</BaseLayout>

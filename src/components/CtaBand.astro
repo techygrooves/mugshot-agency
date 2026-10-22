@@ -1,0 +1,24 @@
+---
+import { cta } from '@config/site';
+interface Props {
+  title?: string;
+  body?: string;
+}
+const {
+  title = 'Find out what can be done — confidentially',
+  body = 'Tell us what you are dealing with and we will review your situation, explain your options honestly and recommend a plan. No obligation.',
+} = Astro.props;
+---
+<section class="container-x py-20">
+  <div class="relative overflow-hidden rounded-3xl bg-navy-900 px-6 py-14 text-center md:px-16">
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(40rem_20rem_at_50%_120%,rgba(20,184,166,0.3),transparent)]"></div>
+    <div class="relative">
+      <h2 class="mx-auto max-w-2xl text-3xl font-extrabold !text-white md:text-4xl">{title}</h2>
+      <p class="mx-auto mt-4 max-w-xl text-slate-300">{body}</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href={cta.href} class="btn-primary">{cta.label}</a>
+        <a href="/how-it-works/" class="btn-on-dark">How it works</a>
+      </div>
+    </div>
+  </div>
+</section>
