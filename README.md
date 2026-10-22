@@ -28,6 +28,19 @@ content on an indexable page, or a prohibited claim such as a guaranteed
 result or presenting the company as a law firm, or published state pages
 that are near-copies of each other (`scripts/verify-site.mjs`).
 
+## Preview on GitHub Pages
+
+Every push to `main` builds the site (with all checks) and publishes a
+preview at **https://techygrooves.github.io/mugshot-agency/**
+(`.github/workflows/pages.yml`). `scripts/make-preview.mjs` prefixes links
+with `/mugshot-agency` and marks every page `noindex`, so the preview never
+appears in search results.
+
+- One-time setup: **Settings → Pages → Build and deployment → Source: GitHub
+  Actions**.
+- Redeploy by hand: **Actions → Preview on GitHub Pages → Run workflow**.
+- Same build locally: `npm run build:preview -- --base=/mugshot-agency`.
+
 ## Publishing a state page
 
 All 50 state pages exist but are `noindex` and left out of the sitemap until

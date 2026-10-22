@@ -13,7 +13,8 @@
     "report:state-laws": "node scripts/state-law-report.mjs",
     "astro": "astro",
     "assets:brand": "node scripts/make-brand-assets.mjs",
-    "preview:headers": "node scripts/preview-headers.mjs"
+    "preview:headers": "node scripts/preview-headers.mjs",
+    "build:preview": "npm run build && node scripts/make-preview.mjs"
   },
   "repository": {
     "type": "git",
