@@ -23,7 +23,21 @@ npm run preview    # serve the built site
 `npm run build` fails if any page has a missing, duplicated or over-long title
 or description, more than one `<h1>`, a broken internal link, or placeholder
 content on an indexable page, or a prohibited claim such as a guaranteed
-result or presenting the company as a law firm (`scripts/verify-site.mjs`).
+result or presenting the company as a law firm, or published state pages
+that are near-copies of each other (`scripts/verify-site.mjs`).
+
+## Publishing a state page
+
+All 50 state pages exist but are `noindex` and left out of the sitemap until
+counsel reviews that state. To publish one:
+
+1. Have counsel confirm its entry in `src/data/state-laws.ts` (citation,
+   summary, sources) and set `reviewed: true`.
+2. Add `localContent`: a few paragraphs of genuinely state-specific
+   information. The build fails if a published state page shares more than
+   60% of its text with another (`STATE_SIMILARITY_REPORT=1 npm run verify`
+   prints the current figures).
+3. `npm run report:state-laws` and `npm run build`.
 
 ## Where things live
 
@@ -35,7 +49,9 @@ result or presenting the company as a law firm (`scripts/verify-site.mjs`).
 | Page layout, SEO tags, structured data | `src/layouts/BaseLayout.astro` |
 | Brand colours and fonts | `src/styles/global.css` |
 | Legal disclosures and form consent text | `src/config/compliance.ts` |
-| State mugshot law research | `src/data/state-laws.ts` → `docs/STATE_LAW_REVIEW.md` |
+| State mugshot law research + per-state content | `src/data/state-laws.ts` → `docs/STATE_LAW_REVIEW.md` |
+| State pages | `src/pages/states/` (bordering states in `src/data/state-neighbors.ts`) |
+| Resource articles (Markdown) | `src/content/resources/` — schema in `src/content.config.ts` |
 
 Read `PROJECT_CONTEXT.md` before editing content, `docs/COMPLIANCE.md` for
 the compliance checklist, and `CONTENT_PENDING.md` for what is still needed

@@ -15,12 +15,14 @@ interface Props {
   description: string;
   /** Extra JSON-LD objects for this page (Service, FAQPage, BreadcrumbList…). */
   schema?: Record<string, unknown>[];
+  /** Force noindex for pages not listed in site.noindexPaths (e.g. unreviewed state pages). */
+  noindex?: boolean;
 }
 
-const { title, description, schema = [] } = Astro.props;
+const { title, description, schema = [], noindex: forceNoindex = false } = Astro.props;
 const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | Online Reputation Management`;
 const canonical = new URL(Astro.url.pathname, site.url).href;
-const noindex = site.noindexPaths.includes(Astro.url.pathname);
+const noindex = forceNoindex || site.noindexPaths.includes(Astro.url.pathname);
 
 const organization = {
   '@context': 'https://schema.org',

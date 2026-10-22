@@ -39,5 +39,9 @@ Permanent rules for the National Reputation Defense website.
 - Structured data: Organization (every page), Service + FAQPage +
   BreadcrumbList (service pages). **Never** add LocalBusiness entries with
   addresses the company does not actually have.
-- State pages (planned) must carry real, state-specific content — not
-  name-swapped copies — to avoid Google's doorway/scaled-content penalties.
+- State pages must carry real, state-specific content — not name-swapped
+  copies — to avoid Google's doorway/scaled-content penalties. A state page is
+  indexable only when its law entry is `reviewed: true`, and the build fails
+  if indexable state pages share more than 60% of their text.
+- Resource articles are bylined to the company, never to an invented person,
+  and follow the copy rules above.

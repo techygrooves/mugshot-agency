@@ -1,0 +1,73 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import CtaBand from '@components/CtaBand.astro';
+import ServiceCard from '@components/ServiceCard.astro';
+import { site } from '@config/site';
+import { disclosures } from '@config/compliance';
+import { getService } from '@data/services';
+import { categoryLabels } from '@data/resource-categories';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('resources');
+  return articles.map((article) => ({ params: { slug: article.id }, props: { article } }));
+}
+
+interface Props {
+  article: CollectionEntry<'resources'>;
+}
+const { article } = Astro.props;
+const { Content } = await render(article);
+const service = getService(article.data.relatedService);
+if (!service) throw new Error(`${article.id}: unknown relatedService "${article.data.relatedService}"`);
+
+const url = new URL(`/resources/${article.id}/`, Astro.site).href;
+const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const updated = article.data.updatedAt ?? article.data.publishedAt;
+
+const schema = [
+  {
+    '@type': 'Article',
+    headline: article.data.title,
+    description: article.data.description,
+    datePublished: article.data.publishedAt.toISOString(),
+    dateModified: updated.toISOString(),
+    mainEntityOfPage: url,
+    author: { '@type': 'Organization', name: site.name, url: site.url },
+    publisher: { '@type': 'Organization', name: site.name, url: site.url },
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Resources', item: new URL('/resources/', Astro.site).href },
+      { '@type': 'ListItem', position: 2, name: article.data.title, item: url },
+    ],
+  },
+];
+---
+<BaseLayout title={article.data.title} description={article.data.description} schema={schema}>
+  <PageHero
+    eyebrow={categoryLabels[article.data.category]}
+    title={article.data.title}
+    lead={article.data.description}
+    crumbs={[{ label: 'Resources', href: '/resources/' }, { label: article.data.title, href: `/resources/${article.id}/` }]}
+  >
+    <p class="mt-6 text-sm text-slate-400">
+      By {site.name} · <time datetime={updated.toISOString()}>{article.data.updatedAt ? 'Updated' : 'Published'} {fmt(updated)}</time>
+    </p>
+  </PageHero>
+  <article class="py-16">
+    <div class="container-x prose-body max-w-3xl text-lg [&_a]:text-accent-700 [&_a]:underline [&_h3]:mt-8 [&_h3]:text-xl [&_h3]:font-bold [&_ol]:mt-4 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-5">
+      <Content />
+      <p class="!mt-12 rounded-xl bg-navy-50 p-5 text-sm text-slate-600">This guide is general information, not legal advice, and website and search engine policies change. {disclosures.notLawFirm}</p>
+    </div>
+  </article>
+  <section class="bg-navy-50 py-16">
+    <div class="container-x max-w-3xl">
+      <h2 class="text-2xl font-extrabold">Related service</h2>
+      <div class="mt-6"><ServiceCard service={service} /></div>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>
