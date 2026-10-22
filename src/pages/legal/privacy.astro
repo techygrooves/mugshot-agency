@@ -1,14 +1,51 @@
 ---
-/** PLACEHOLDER — final text must be prepared or reviewed by counsel before launch. noindex until then. */
-import BaseLayout from '@layouts/BaseLayout.astro';
-import PageHero from '@components/PageHero.astro';
+/** DRAFT — must be reviewed by counsel before launch. noindex until then (site.noindexPaths). */
+import LegalPage from '@components/LegalPage.astro';
+import { site } from '@config/site';
 ---
-<BaseLayout title="Privacy Policy" description="How National Reputation Defense collects, uses and protects your information.">
-  <PageHero title="Privacy Policy" crumbs={[{ label: 'Privacy Policy', href: '/legal/privacy/' }]} />
-  <section class="py-16">
-    <div class="container-x max-w-3xl" data-placeholder="legal-privacy">
-      <p class="inline-flex rounded-full bg-gold-400/20 px-3 py-1 text-xs font-bold uppercase tracking-wider text-amber-800">Being finalized</p>
-      <p class="mt-4 text-lg">Our Privacy Policy is being finalized and will be published here before we begin accepting client inquiries online.</p>
-    </div>
-  </section>
-</BaseLayout>
+<LegalPage title="Privacy Policy" description="How National Reputation Defense collects, uses and protects your information." path="/legal/privacy/">
+  <p>{site.name} (“we”, “us”) helps people and businesses manage what appears about them online. Much of what clients share with us is sensitive, so we keep this policy plain and our practices narrow.</p>
+
+  <h2>Information we collect</h2>
+  <ul>
+    <li><strong>Information you give us</strong> — your name, contact details, state, and details about the content or situation you want help with, including links, screenshots and records you choose to share.</li>
+    <li><strong>Information needed to act for you</strong> — when you engage us, documents that support a removal request (for example, proof that a case was dismissed or a record sealed) and your written authorization to submit requests on your behalf.</li>
+    <li><strong>Communications</strong> — emails, messages and notes from calls with you.</li>
+    <li><strong>Technical information</strong> — basic information your browser sends when you visit, such as IP address, browser type and pages viewed, as recorded by our hosting provider. The website does not currently use advertising or analytics cookies. If that changes, we will update this policy first.</li>
+  </ul>
+
+  <h2>How we use it</h2>
+  <ul>
+    <li>To respond to your inquiry and assess your situation.</li>
+    <li>To deliver the services you engage us for, such as submitting removal requests and monitoring results.</li>
+    <li>To communicate with you about your request or account, including by phone or text only where you have agreed.</li>
+    <li>To operate, secure and improve our website and services, and to meet legal obligations.</li>
+  </ul>
+  <p>We do not sell your personal information, and we do not use the details of your situation for advertising.</p>
+
+  <h2>When we share it</h2>
+  <ul>
+    <li><strong>With websites, platforms and search engines</strong> — only the information needed to submit a request you have authorized.</li>
+    <li><strong>With service providers</strong> who help us run our business (for example, hosting, email and secure file storage), under agreements that limit their use of your information.</li>
+    <li><strong>When required by law</strong>, or to protect our rights, our clients or the public.</li>
+    <li><strong>In a business transfer</strong>, such as a merger or sale, subject to this policy.</li>
+  </ul>
+
+  <h2>How long we keep it</h2>
+  <p>We keep your information while we are working with you and for a limited period afterwards to handle reposted content, meet legal and accounting obligations and resolve disputes. You can ask us to delete it sooner, subject to those obligations.</p>
+
+  <h2>Security</h2>
+  <p>We use reasonable administrative, technical and physical safeguards to protect your information. No method of transmission or storage is completely secure, so please share only what is needed for your request.</p>
+
+  <h2>Your choices and rights</h2>
+  <p>You can ask to access, correct or delete the personal information we hold about you, and opt out of marketing messages at any time. Residents of some states have additional rights under state privacy laws; we will honor requests as those laws require. Reply STOP to any text message to opt out of texts.</p>
+
+  <h2>Children</h2>
+  <p>Our services are intended for adults. We do not knowingly collect information from children under 13 through this website.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>We will post any changes on this page and update the effective date.</p>
+
+  <h2>Contact</h2>
+  <p>Privacy contact details will be published here before this policy takes effect.</p>
+</LegalPage>

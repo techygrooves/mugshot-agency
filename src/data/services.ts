@@ -78,6 +78,10 @@ export const services: Service[] = [
         a: 'Not necessarily, but a sealed or expunged record can make some removal requests stronger. Expungement and sealing are legal processes — we are not a law firm and do not provide legal advice, so we recommend speaking with a licensed attorney in your state about your eligibility.',
       },
       {
+        q: 'Can I request removal myself?',
+        a: 'Yes. Several states give people the right to ask certain websites to remove a booking photo free of charge, especially after a case is dismissed or sealed, and many sites and search engines accept requests directly. You never need to hire anyone to exercise those rights. Clients come to us when there are many copies to track down, when requests stall, or when they would rather have it handled for them.',
+      },
+      {
         q: 'Will the mugshot come back?',
         a: 'It can, because records are public and sites re-scrape them. That is why monitoring is part of the service.',
       },

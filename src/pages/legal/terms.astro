@@ -1,14 +1,40 @@
 ---
-/** PLACEHOLDER — final text must be prepared or reviewed by counsel before launch. noindex until then. */
-import BaseLayout from '@layouts/BaseLayout.astro';
-import PageHero from '@components/PageHero.astro';
+/** DRAFT — must be reviewed by counsel before launch. noindex until then (site.noindexPaths). */
+import LegalPage from '@components/LegalPage.astro';
+import { site } from '@config/site';
+import { disclosures } from '@config/compliance';
 ---
-<BaseLayout title="Terms of Service" description="The terms that govern use of the National Reputation Defense website and services.">
-  <PageHero title="Terms of Service" crumbs={[{ label: 'Terms of Service', href: '/legal/terms/' }]} />
-  <section class="py-16">
-    <div class="container-x max-w-3xl" data-placeholder="legal-terms">
-      <p class="inline-flex rounded-full bg-gold-400/20 px-3 py-1 text-xs font-bold uppercase tracking-wider text-amber-800">Being finalized</p>
-      <p class="mt-4 text-lg">Our Terms of Service is being finalized and will be published here before we begin accepting client inquiries online.</p>
-    </div>
-  </section>
-</BaseLayout>
+<LegalPage title="Terms of Service" description="The terms that govern use of the National Reputation Defense website and services." path="/legal/terms/">
+  <p>These terms govern your use of this website and, together with any written service agreement, the services provided by {site.name}. If a service agreement conflicts with these terms, the service agreement controls.</p>
+
+  <h2>What we do</h2>
+  <p>We provide online reputation management services, including requesting removal of content from websites and search engines, search result suppression, review management, personal information removal and monitoring. The scope, timing and fees for any engagement are set out in a written agreement before work begins.</p>
+
+  <h2>We are not a law firm</h2>
+  <p>{disclosures.notLawFirm} {disclosures.noAttorneyClient} Information on this website is general and may not reflect current law in your state. For legal questions, including expungement, record sealing or defamation, consult a licensed attorney.</p>
+
+  <h2>No guaranteed results</h2>
+  <p>Websites, platforms and search engines make their own decisions about whether to remove, update or rank content, and those decisions can change. We cannot guarantee that any content will be removed, suppressed or kept from reappearing, and any timelines we give are estimates.</p>
+
+  <h2>Your free rights</h2>
+  <p>{disclosures.freeRights} Hiring us is never required to exercise a legal right.</p>
+
+  <h2>Your responsibilities</h2>
+  <ul>
+    <li>Give us accurate information and tell us promptly if it changes.</li>
+    <li>Only ask us to act on content about you or your business, or content you are authorized to address.</li>
+    <li>Do not ask us to do anything unlawful, deceptive or against a platform’s rules — including posting fake reviews or misleading content, which we do not do.</li>
+  </ul>
+
+  <h2>Using this website</h2>
+  <p>You may use this website for lawful purposes only. Its content, design and branding belong to {site.name} or its licensors and may not be copied for commercial use without permission.</p>
+
+  <h2>Disclaimers and limits</h2>
+  <p>The website is provided “as is”. To the extent the law allows, we disclaim implied warranties and are not liable for indirect or consequential damages arising from your use of the website. Nothing in these terms limits rights you have under consumer protection laws that cannot be waived.</p>
+
+  <h2>Governing law</h2>
+  <p>[To be completed with counsel: governing state law and dispute resolution.]</p>
+
+  <h2>Changes</h2>
+  <p>We may update these terms by posting a new version on this page with an updated effective date.</p>
+</LegalPage>

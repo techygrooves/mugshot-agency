@@ -8,6 +8,7 @@
  *   - exactly one <h1>
  *   - a canonical tag on every indexable page
  *   - placeholder pages (data-placeholder) that are not noindex
+ *   - prohibited claims in visible text (see CLAIM_RULES / docs/COMPLIANCE.md)
  *
  * Run with: npm run verify   (after a build)
  */
@@ -35,6 +36,30 @@ async function resolves(href) {
   return (await exists(path.join(DIST, clean, 'index.html'))) || exists(path.join(DIST, `${clean}.html`));
 }
 
+/**
+ * Claims the site must never make. Each rule is checked against the visible
+ * text of every page; `allow` lists the exact phrasings that are fine because
+ * they deny the claim (e.g. "not a law firm").
+ */
+const CLAIM_RULES = [
+  { name: 'guaranteed results', pattern: /\b(guaranteed?|100%)\b[^.]{0,40}\b(removal|removed|results?|deleted|success)\b/gi, allow: [/\bno guaranteed results\b/i, /never guaranteed/i, /not guaranteed/i, /cannot guarantee/i, /can guarantee that/i, /Do you guarantee results/i, /cannot and do not guarantee/i] },
+  { name: 'presents as legal practice', pattern: /\b(our (attorneys|lawyers|legal team)|attorneys? at law|esq\.|legal services|law office)\b/gi, allow: [] },
+  { name: 'law firm claim', pattern: /[^.?]{0,30}\blaw firm\b/gi, allow: [/\bnot a law firm\b/i, /Are you a law firm/i] },
+  { name: 'unrelated brand', pattern: /\bhoffman\b/gi, allow: [] },
+  { name: 'fake reviews offered', pattern: /\b(buy|purchase|write|post)\s+(positive\s+)?reviews\b/gi, allow: [/never post fake/i] },
+];
+
+const visibleText = (html) =>
+  decode(
+    html
+      .replace(/<script[\s\S]*?<\/script>/g, ' ')
+      .replace(/<style[\s\S]*?<\/style>/g, ' ')
+      .replace(/<head[\s\S]*?<\/head>/, ' ')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/\s+/g, ' '),
+  );
+
 const decode = (s) => s.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"');
 
 const errors = [];
@@ -59,6 +84,14 @@ for (const file of await collectHtml(DIST)) {
   if (h1s !== 1) errors.push(`${page}: has ${h1s} <h1> elements (expected 1)`);
   if (!noindex && !is404 && !/<link rel="canonical"/.test(html)) errors.push(`${page}: indexable page has no canonical`);
   if (/data-placeholder=/.test(html) && !noindex) errors.push(`${page}: placeholder content on an indexable page`);
+
+  const text = visibleText(html);
+  for (const rule of CLAIM_RULES) {
+    for (const { 0: match, index: start } of text.matchAll(rule.pattern)) {
+      const context = text.slice(Math.max(0, start - 40), start + match.length + 40);
+      if (!rule.allow.some((ok) => ok.test(context))) errors.push(`${page}: prohibited claim (${rule.name}): "…${context.trim()}…"`);
+    }
+  }
 
   if (!is404) {
     titles.set(title, [...(titles.get(title) ?? []), page]);
