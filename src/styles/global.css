@@ -1,0 +1,76 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/plus-jakarta-sans';
+
+/*
+ * Brand tokens. Deep navy conveys stability and discretion; the teal accent
+ * reads as "protection" without the alarm of red. Gold is reserved for small
+ * highlights only.
+ */
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Plus Jakarta Sans Variable', 'Inter Variable', ui-sans-serif, sans-serif;
+
+  --color-ink: #0b1b33;
+  --color-navy-950: #071226;
+  --color-navy-900: #0b1b33;
+  --color-navy-800: #12284a;
+  --color-navy-700: #1c3a66;
+  --color-navy-100: #e6ecf5;
+  --color-navy-50: #f4f7fb;
+
+  --color-accent-700: #0b7a75;
+  --color-accent-600: #0e9690;
+  --color-accent-500: #14b8a6;
+  --color-accent-100: #d5f5f1;
+
+  --color-gold-400: #e5b85c;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-white font-sans text-slate-700 antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display text-ink tracking-tight;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent-600;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+  .eyebrow {
+    @apply text-sm font-semibold uppercase tracking-[0.14em] text-accent-700;
+  }
+  .btn-primary,
+  .btn-secondary,
+  .btn-on-dark {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold transition-colors;
+  }
+  .btn-primary {
+    @apply bg-accent-600 text-white shadow-sm hover:bg-accent-700;
+  }
+  .btn-secondary {
+    @apply border border-navy-100 bg-white text-ink hover:border-navy-700;
+  }
+  .btn-on-dark {
+    @apply border border-white/25 text-white hover:bg-white/10;
+  }
+  .prose-body p {
+    @apply mt-4 leading-relaxed;
+  }
+  .prose-body h2 {
+    @apply mt-10 text-2xl font-bold;
+  }
+  .prose-body ul {
+    @apply mt-4 list-disc space-y-2 pl-5;
+  }
+}

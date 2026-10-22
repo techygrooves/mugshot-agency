@@ -1,0 +1,47 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import CtaBand from '@components/CtaBand.astro';
+import { steps } from '@data/process';
+---
+<BaseLayout
+  title="How Reputation Management Works"
+  description="See how National Reputation Defense works: a confidential consultation, a full reputation audit, a custom strategy, and ongoing execution and monitoring."
+>
+  <PageHero
+    eyebrow="How it works"
+    title="A transparent, step-by-step process"
+    lead="Reputation work should never feel like a black box. Here is exactly what happens after you reach out."
+    crumbs={[{ label: 'How It Works', href: '/how-it-works/' }]}
+  />
+  <section class="py-16 md:py-24">
+    <ol class="container-x relative max-w-3xl space-y-10 before:absolute before:bottom-4 before:left-[2.15rem] before:top-4 before:w-px before:bg-navy-100 sm:before:left-[2.65rem]">
+      {steps.map((step, i) => (
+        <li class="relative flex gap-6">
+          <span class="relative z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full bg-navy-900 font-display font-bold text-white ring-8 ring-white">{i + 1}</span>
+          <div class="pt-1.5">
+            <h2 class="text-2xl font-bold">{step.title}</h2>
+            <p class="mt-3 text-lg leading-relaxed">{step.detail}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+  <section class="bg-navy-50 py-16">
+    <div class="container-x grid gap-8 md:grid-cols-3">
+      <div>
+        <h2 class="text-xl font-bold">Removal</h2>
+        <p class="mt-2 leading-relaxed">When a website’s policies, a search engine’s processes or applicable rules allow it, we request that content be taken down or de-indexed.</p>
+      </div>
+      <div>
+        <h2 class="text-xl font-bold">Suppression</h2>
+        <p class="mt-2 leading-relaxed">When content cannot be removed, we build and strengthen accurate, positive results so the unwanted item moves down where fewer people see it.</p>
+      </div>
+      <div>
+        <h2 class="text-xl font-bold">Protection</h2>
+        <p class="mt-2 leading-relaxed">We remove exposed personal information and monitor continuously so new problems are caught early.</p>
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>

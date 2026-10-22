@@ -1,0 +1,138 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ServiceCard from '@components/ServiceCard.astro';
+import SectionHeading from '@components/SectionHeading.astro';
+import CtaBand from '@components/CtaBand.astro';
+import FaqList from '@components/FaqList.astro';
+import Icon from '@components/Icon.astro';
+import { site, cta } from '@config/site';
+import { services } from '@data/services';
+import { steps } from '@data/process';
+import { generalFaqs } from '@data/faqs';
+
+const homeFaqs = generalFaqs.slice(0, 4);
+
+const pillars = [
+  { icon: 'lock', title: 'Confidential by design', body: 'Your situation is handled discreetly from the first conversation. We use your information only to deliver your services.' },
+  { icon: 'chat', title: 'Honest expectations', body: 'We explain what is realistically achievable for your situation before you commit — and never promise results we cannot control.' },
+  { icon: 'shield', title: 'Ethical methods only', body: 'We use legitimate removal processes and white-hat SEO. No fake reviews, no misleading content, no shortcuts that put you at risk.' },
+  { icon: 'map', title: 'All 50 states', body: 'Records and websites do not stop at state lines, and neither do we. We work with clients across the country.' },
+] as const;
+---
+<BaseLayout description={site.description} schema={[{ '@type': 'FAQPage', mainEntity: homeFaqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }]}>
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-navy-900 text-white">
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(70rem_40rem_at_90%_-20%,rgba(20,184,166,0.25),transparent),radial-gradient(40rem_30rem_at_-10%_120%,rgba(28,58,102,0.9),transparent)]"></div>
+    <div class="container-x relative grid items-center gap-12 py-20 md:py-28 lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <p class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-accent-500">
+          <span class="h-1.5 w-1.5 rounded-full bg-accent-500"></span> Serving all 50 states
+        </p>
+        <h1 class="mt-6 text-4xl font-extrabold leading-[1.08] !text-white sm:text-5xl lg:text-6xl">
+          Your past shouldn’t be the first thing people find.
+        </h1>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-slate-300">
+          National Reputation Defense helps individuals and businesses remove or suppress mugshots, negative search results and exposed personal information — confidentially and ethically.
+        </p>
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href={cta.href} class="btn-primary px-6 py-3.5 text-base">{cta.label} <Icon name="arrow" class="h-4 w-4" /></a>
+          <a href="/services/" class="btn-on-dark px-6 py-3.5 text-base">Explore services</a>
+        </div>
+      </div>
+
+      <!-- Illustrative search result card: shows the outcome we work toward. -->
+      <div class="lg:col-span-5" aria-hidden="true">
+        <div class="rounded-2xl border border-white/10 bg-white p-5 text-left text-slate-700 shadow-2xl shadow-black/30">
+          <div class="flex items-center gap-3 rounded-full border border-slate-200 px-4 py-2.5">
+            <Icon name="search" class="h-4 w-4 text-slate-400" />
+            <span class="text-sm text-slate-500">your name</span>
+          </div>
+          <ul class="mt-5 space-y-4">
+            <li class="rounded-lg bg-accent-100/60 p-3">
+              <p class="text-xs text-accent-700">yourname.com</p>
+              <p class="font-semibold text-navy-700">Your Name — Professional Profile</p>
+              <div class="mt-1.5 h-2 w-4/5 rounded bg-slate-200"></div>
+            </li>
+            <li class="p-3">
+              <p class="text-xs text-slate-500">linkedin.com</p>
+              <p class="font-semibold text-navy-700">Your Name — Experience & Credentials</p>
+              <div class="mt-1.5 h-2 w-3/5 rounded bg-slate-200"></div>
+            </li>
+            <li class="p-3">
+              <p class="text-xs text-slate-500">news.example</p>
+              <p class="font-semibold text-navy-700">Community Award Recognizes Local Leader</p>
+              <div class="mt-1.5 h-2 w-2/3 rounded bg-slate-200"></div>
+            </li>
+            <li class="relative p-3 opacity-40">
+              <p class="text-xs text-slate-500">mugshot-site.example</p>
+              <p class="font-semibold text-slate-500 line-through decoration-red-400 decoration-2">Arrest Record &amp; Booking Photo</p>
+              <span class="absolute right-3 top-3 rounded bg-red-50 px-2 py-0.5 text-[10px] font-bold uppercase text-red-500">Removed</span>
+            </li>
+          </ul>
+          <p class="mt-4 border-t border-slate-100 pt-3 text-[11px] text-slate-400">Illustration only. Results vary by situation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="bg-navy-50 py-20 md:py-24">
+    <div class="container-x">
+      <SectionHeading eyebrow="What we do" title="Reputation services built around your situation" lead="Whether it is a single mugshot or a search page full of problems, we combine the right tools for your goals." center />
+      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map((service) => <ServiceCard service={service} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="py-20 md:py-24">
+    <div class="container-x grid gap-14 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <SectionHeading eyebrow="How it works" title="A clear process from first call to cleaner results" lead="You will always know what we are doing, why, and what to expect next." />
+        <a href="/how-it-works/" class="btn-secondary mt-8">See the full process</a>
+      </div>
+      <ol class="grid gap-5 sm:grid-cols-2 lg:col-span-7">
+        {steps.map((step, i) => (
+          <li class="rounded-2xl border border-navy-100 p-6">
+            <span class="font-display text-sm font-bold text-accent-700">Step {String(i + 1).padStart(2, '0')}</span>
+            <h3 class="mt-2 text-lg font-bold">{step.title}</h3>
+            <p class="mt-2 text-[15px] leading-relaxed">{step.summary}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Why us -->
+  <section class="bg-navy-900 py-20 text-white md:py-24">
+    <div class="container-x">
+      <div class="max-w-2xl">
+        <p class="eyebrow !text-accent-500">Why National Reputation Defense</p>
+        <h2 class="mt-3 text-3xl font-extrabold !text-white md:text-4xl">Discreet, honest and built for the long term</h2>
+      </div>
+      <div class="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {pillars.map((p) => (
+          <div>
+            <span class="grid h-12 w-12 place-items-center rounded-xl bg-white/10 text-accent-500"><Icon name={p.icon} /></span>
+            <h3 class="mt-5 text-lg font-bold !text-white">{p.title}</h3>
+            <p class="mt-2 text-[15px] leading-relaxed text-slate-300">{p.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-20 md:py-24">
+    <div class="container-x grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <SectionHeading eyebrow="FAQ" title="Common questions" />
+        <a href="/faq/" class="mt-6 inline-flex items-center gap-1.5 font-semibold text-accent-700">All questions <Icon name="arrow" class="h-4 w-4" /></a>
+      </div>
+      <div class="lg:col-span-8"><FaqList faqs={homeFaqs} /></div>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>
