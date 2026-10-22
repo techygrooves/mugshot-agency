@@ -37,10 +37,15 @@ const pillars = [
         <p class="mt-6 max-w-xl text-lg leading-relaxed text-slate-300">
           National Reputation Defense helps individuals and businesses remove or suppress mugshots, negative search results and exposed personal information — confidentially and ethically.
         </p>
-        <div class="mt-9 flex flex-wrap gap-3">
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <a href={cta.href} class="btn-primary px-6 py-3.5 text-base">{cta.label} <Icon name="arrow" class="h-4 w-4" /></a>
           <a href="/services/" class="btn-on-dark px-6 py-3.5 text-base">Explore services</a>
         </div>
+        <ul class="mt-8 grid grid-cols-2 gap-x-6 gap-y-3 text-sm text-slate-300 sm:flex sm:flex-wrap">
+          {['Confidential', 'No obligation', 'Ethical methods', 'All 50 states'].map((item) => (
+            <li class="flex items-center gap-2"><Icon name="check" class="h-4 w-4 shrink-0 text-accent-500" />{item}</li>
+          ))}
+        </ul>
       </div>
 
       <!-- Illustrative search result card: shows the outcome we work toward. The mock
@@ -85,7 +90,7 @@ const pillars = [
   <section class="bg-navy-50 py-20 md:py-24">
     <div class="container-x">
       <SectionHeading eyebrow="What we do" title="Reputation services built around your situation" lead="Whether it is a single mugshot or a search page full of problems, we combine the right tools for your goals." center />
-      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="mt-12 grid gap-3 sm:mt-14 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {services.map((service) => <ServiceCard service={service} />)}
       </div>
     </div>

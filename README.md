@@ -49,7 +49,7 @@ counsel reviews that state. To publish one:
 | The six services (all copy, FAQs, SEO text) | `src/data/services.ts` |
 | General FAQs / process steps | `src/data/faqs.ts`, `src/data/process.ts` |
 | Page layout, SEO tags, structured data | `src/layouts/BaseLayout.astro` |
-| Brand colours and fonts | `src/styles/global.css` |
+| Brand colours and fonts | `src/styles/global.css` — rules in `docs/DESIGN.md` |
 | Legal disclosures and form consent text | `src/config/compliance.ts` |
 | State mugshot law research + per-state content | `src/data/state-laws.ts` → `docs/STATE_LAW_REVIEW.md` |
 | State pages | `src/pages/states/` (bordering states in `src/data/state-neighbors.ts`) |
@@ -57,5 +57,5 @@ counsel reviews that state. To publish one:
 
 Read `PROJECT_CONTEXT.md` before editing content, `docs/COMPLIANCE.md` for
 the compliance checklist, `docs/SEO.md` for the technical SEO setup and
-launch switches, and `CONTENT_PENDING.md` for what is still needed
+launch switches, `docs/DESIGN.md` for the design system, and `CONTENT_PENDING.md` for what is still needed
 before launch.

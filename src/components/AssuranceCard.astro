@@ -1,0 +1,32 @@
+---
+/**
+ * Small "what you can count on" card for page heroes. Every line here is a
+ * commitment about how we work — never a claim about results.
+ */
+import Icon from './Icon.astro';
+import type { IconName } from '@data/services';
+
+interface Props {
+  icon: IconName;
+  title: string;
+}
+const { icon, title } = Astro.props;
+
+const points = [
+  { icon: 'lock', text: 'Free, confidential consultation' },
+  { icon: 'chat', text: 'Honest assessment before you commit' },
+  { icon: 'shield', text: 'Ethical, policy-compliant methods only' },
+  { icon: 'clock', text: 'Plain-English progress reports' },
+] as const;
+---
+<div class="rounded-2xl border border-white/10 bg-white/[0.06] p-6 backdrop-blur">
+  <div class="flex items-center gap-3">
+    <span class="grid h-11 w-11 place-items-center rounded-xl bg-accent-500/15 text-accent-500"><Icon name={icon} /></span>
+    <p class="font-display font-bold text-white">{title}</p>
+  </div>
+  <ul class="mt-5 space-y-3 text-[15px] text-slate-300">
+    {points.map((p) => (
+      <li class="flex items-center gap-3"><Icon name={p.icon} class="h-5 w-5 shrink-0 text-accent-500" />{p.text}</li>
+    ))}
+  </ul>
+</div>
