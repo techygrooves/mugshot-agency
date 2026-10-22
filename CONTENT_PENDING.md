@@ -4,7 +4,7 @@ Items needed before launch. Nothing here may be filled in with invented text.
 
 | Item | Status | Where it goes |
 | --- | --- | --- |
-| Domain name | Placeholder `nationalreputationdefense.com` — confirm or replace | `src/config/site.ts` → `url`, then set `urlConfirmed: true` |
+| Domain name | Placeholder `nationalreputationdefense.com` — confirm or replace | `src/config/site.ts` → `url`, then set `urlConfirmed: true` (robots.txt blocks all crawlers until then — see `docs/SEO.md`) |
 | Business email / phone | Not provided | `src/config/site.ts` → `contact` |
 | Consultation form | Placeholder (to be implemented later) | `src/pages/contact.astro` — remove from `noindexPaths` when live |
 | Privacy Policy | Drafted — needs counsel review and a privacy contact | `src/pages/legal/privacy.astro`; then `legalDraft` in `src/config/compliance.ts` |

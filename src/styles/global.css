@@ -19,6 +19,7 @@
   --color-navy-100: #e6ecf5;
   --color-navy-50: #f4f7fb;
 
+  --color-accent-800: #08605c;
   --color-accent-700: #0b7a75;
   --color-accent-600: #0e9690;
   --color-accent-500: #14b8a6;
@@ -56,7 +57,7 @@
     @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold transition-colors;
   }
   .btn-primary {
-    @apply bg-accent-600 text-white shadow-sm hover:bg-accent-700;
+    @apply bg-accent-700 text-white shadow-sm hover:bg-accent-800;
   }
   .btn-secondary {
     @apply border border-navy-100 bg-white text-ink hover:border-navy-700;

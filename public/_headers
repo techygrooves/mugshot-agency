@@ -1,0 +1,20 @@
+# Response headers, read by Netlify and Cloudflare Pages (same format).
+# On another host, port these rules to its config. Test locally with:
+#   npm run build && npm run preview:headers
+#
+# CSP notes: every script and stylesheet is a same-origin file (no inline
+# code — see astro.config.mjs). JSON-LD blocks are data, not script, so CSP
+# does not apply to them. When the consultation form or analytics are added,
+# extend form-action / connect-src / script-src for that provider only.
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+
+# Fingerprinted build assets never change; cache them for a year.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
