@@ -1,0 +1,175 @@
+---
+/**
+ * One page per state. The law section renders only from a reviewed entry in
+ * src/data/state-laws.ts; until then the page is noindex, excluded from the
+ * sitemap and shows a "being reviewed" notice (see isPublishable).
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import FaqList from '@components/FaqList.astro';
+import CtaBand from '@components/CtaBand.astro';
+import Icon from '@components/Icon.astro';
+import { site, cta } from '@config/site';
+import { disclosures } from '@config/compliance';
+import { services } from '@data/services';
+import { stateLaws, isPublishable, type StateLaw } from '@data/state-laws';
+import { stateNeighbors } from '@data/state-neighbors';
+
+export function getStaticPaths() {
+  return stateLaws.map((law) => ({ params: { slug: law.slug }, props: { law } }));
+}
+
+interface Props {
+  law: StateLaw;
+}
+const { law } = Astro.props;
+const { name } = law;
+const publishable = isPublishable(law);
+const url = new URL(`/states/${law.slug}/`, Astro.site).href;
+const neighbors = stateNeighbors[law.abbr]
+  .map((abbr) => stateLaws.find((s) => s.abbr === abbr))
+  .filter((s): s is StateLaw => Boolean(s));
+
+const lawFaq = (() => {
+  if (!publishable) return [];
+  if (law.status === 'identified' && law.summary) {
+    return [{ q: `Does ${name} have a law about mugshot websites?`, a: `Yes. ${law.summary} This is general information, not legal advice — laws change, so confirm the current rules or speak with a licensed ${name} attorney.` }];
+  }
+  return [{ q: `Does ${name} have a law about mugshot websites?`, a: `We are not aware of a ${name} law that specifically regulates mugshot websites. Website policies and search engine removal tools still apply, and other privacy or consumer protection laws may help. This is general information, not legal advice.` }];
+})();
+
+const faqs = [
+  ...lawFaq,
+  {
+    q: `Can you help remove a mugshot that appears in ${name} search results?`,
+    a: `Yes. We work with clients in ${name} to locate every copy of a booking photo, submit removal and de-indexing requests, and suppress results that cannot be removed. Results depend on each website’s policies and applicable law, and are never guaranteed.`,
+  },
+  {
+    q: `Do I need to live in ${name} to work with you?`,
+    a: `No. Our work is done remotely and covers websites and search engines wherever they are. If your arrest record is from ${name} but you now live elsewhere, we can still help.`,
+  },
+  {
+    q: `Should I get my ${name} record expunged or sealed first?`,
+    a: `It can make some removal requests stronger, but it is a legal process with its own eligibility rules. ${disclosures.notLawFirm} We recommend speaking with a licensed ${name} attorney about your eligibility.`,
+  },
+];
+
+const schema = [
+  {
+    '@type': 'Service',
+    name: `Mugshot removal and reputation management in ${name}`,
+    serviceType: 'Online reputation management',
+    url,
+    provider: { '@type': 'Organization', name: site.name, url: site.url },
+    areaServed: { '@type': 'State', name },
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'States', item: new URL('/states/', Astro.site).href },
+      { '@type': 'ListItem', position: 2, name, item: url },
+    ],
+  },
+  { '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+<BaseLayout
+  title={`Mugshot Removal in ${name}`}
+  description={`Mugshot removal, search result suppression and reputation management for ${name} residents and businesses. Confidential, ethical help.`}
+  schema={schema}
+  noindex={!publishable}
+>
+  <PageHero
+    eyebrow={`${name} · ${law.abbr}`}
+    title={`Mugshot removal & reputation management in ${name}`}
+    lead={`Confidential help for ${name} individuals and businesses dealing with mugshots, arrest records, negative search results and exposed personal information.`}
+    crumbs={[{ label: 'States', href: '/states/' }, { label: name, href: `/states/${law.slug}/` }]}
+  >
+    <div class="mt-8"><a href={cta.href} class="btn-primary">{cta.label}</a></div>
+  </PageHero>
+
+  {law.localContent && law.localContent.length > 0 && (
+    <section class="pt-16 md:pt-20">
+      <div class="container-x prose-body max-w-3xl text-lg">
+        <h2 class="!mt-0 text-3xl font-extrabold">Reputation help in {name}</h2>
+        {law.localContent.map((p) => <p>{p}</p>)}
+      </div>
+    </section>
+  )}
+
+  <section class="py-16 md:py-20">
+    <div class="container-x grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <h2 class="text-3xl font-extrabold">{name} mugshot laws</h2>
+        {publishable ? (
+          law.status === 'identified' ? (
+            <div class="prose-body">
+              <p>{law.summary}</p>
+              {law.citation && <p class="text-sm text-slate-500">Source: {law.citation}{law.year ? `, enacted ${law.year}` : ''}.{law.sources.length > 0 && <> See {law.sources.map((src, i) => <>{i > 0 && ', '}<a href={src} rel="nofollow noopener" class="text-accent-700 underline">source {i + 1}</a></>)}.</>}</p>}
+            </div>
+          ) : (
+            <div class="prose-body">
+              <p>We are not aware of a {name} law that specifically regulates mugshot websites. That does not mean you are without options: website removal policies, search engine tools and broader privacy and consumer protection laws can all help.</p>
+            </div>
+          )
+        ) : (
+          <div class="mt-6 rounded-xl border-2 border-dashed border-navy-100 bg-navy-50 p-6" data-placeholder={`state-law-${law.slug}`}>
+            <p class="font-semibold text-ink">Our {name} law summary is being reviewed.</p>
+            <p class="mt-2">We publish state law information only after legal review, so this section will be available soon. In the meantime, our team can explain the options that apply to your situation.</p>
+          </div>
+        )}
+        <p class="mt-6 text-sm text-slate-500">This is general information, not legal advice, and laws change. {disclosures.notLawFirm}</p>
+      </div>
+
+      <aside class="lg:col-span-5">
+        <div class="rounded-2xl border border-navy-100 bg-navy-50 p-7">
+          <h2 class="text-lg font-bold">Options worth knowing</h2>
+          <ul class="mt-4 space-y-3 text-[15px]">
+            <li class="flex gap-3"><Icon name="check" class="mt-0.5 h-5 w-5 shrink-0 text-accent-600" /><span>Many websites have their own removal policies — and some states require free removal in certain cases. You can always make these requests yourself.</span></li>
+            <li class="flex gap-3"><Icon name="check" class="mt-0.5 h-5 w-5 shrink-0 text-accent-600" /><span>Google accepts requests to remove pages from sites that charge to take content down, and to refresh results that are outdated.</span></li>
+            <li class="flex gap-3"><Icon name="check" class="mt-0.5 h-5 w-5 shrink-0 text-accent-600" /><span>If your case was dismissed or you may qualify for expungement or sealing in {name}, a licensed attorney can advise you.</span></li>
+          </ul>
+          <a href="/resources/how-to-remove-a-mugshot-from-google/" class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-700">Read our step-by-step guide <Icon name="arrow" class="h-4 w-4" /></a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="bg-navy-50 py-16 md:py-20">
+    <div class="container-x">
+      <h2 class="text-3xl font-extrabold">Services for {name} clients</h2>
+      <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map((s) => (
+          <li>
+            <a href={`/services/${s.slug}/`} class="flex h-full items-start gap-4 rounded-xl border border-navy-100 bg-white p-5 hover:border-accent-500">
+              <span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-accent-100 text-accent-700"><Icon name={s.icon} class="h-5 w-5" /></span>
+              <span><span class="block font-semibold text-ink">{s.name}</span><span class="mt-1 block text-sm">{s.summary}</span></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20">
+    <div class="container-x grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <h2 class="text-3xl font-extrabold">{name} FAQ</h2>
+        <div class="mt-6"><FaqList faqs={faqs} /></div>
+      </div>
+      {neighbors.length > 0 && (
+        <aside class="lg:col-span-5">
+          <h2 class="text-lg font-bold">Nearby states</h2>
+          <ul class="mt-4 flex flex-wrap gap-2">
+            {neighbors.map((n) => (
+              <li><a href={`/states/${n.slug}/`} class="inline-block rounded-full border border-navy-100 px-4 py-2 text-sm font-medium text-ink hover:border-accent-500">{n.name}</a></li>
+            ))}
+          </ul>
+          <a href="/states/" class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-700">All 50 states <Icon name="arrow" class="h-4 w-4" /></a>
+        </aside>
+      )}
+    </div>
+  </section>
+
+  <CtaBand title={`Get confidential help in ${name}`} />
+</BaseLayout>

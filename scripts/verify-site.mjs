@@ -9,7 +9,11 @@
  *   - a canonical tag on every indexable page
  *   - placeholder pages (data-placeholder) that are not noindex
  *   - prohibited claims in visible text (see CLAIM_RULES / docs/COMPLIANCE.md)
+ *   - indexable state pages whose main content is too similar to another
+ *     state page (Google treats near-duplicate location pages as doorways)
  *
+ * Set STATE_SIMILARITY_REPORT=1 to print similarity for every state page,
+ * including unreviewed (noindex) ones, without failing the build.
  * Run with: npm run verify   (after a build)
  */
 import fs from 'node:fs/promises';
@@ -62,7 +66,24 @@ const visibleText = (html) =>
 
 const decode = (s) => s.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"');
 
+/** Maximum share of 5-word sequences two indexable state pages may have in common. */
+const MAX_STATE_SIMILARITY = 0.6;
+
+const shingles = (text) => {
+  const words = text.toLowerCase().match(/[a-z0-9']+/g) ?? [];
+  const set = new Set();
+  for (let i = 0; i + 5 <= words.length; i++) set.add(words.slice(i, i + 5).join(' '));
+  return set;
+};
+
+const jaccard = (a, b) => {
+  let shared = 0;
+  for (const s of a) if (b.has(s)) shared++;
+  return shared / (a.size + b.size - shared || 1);
+};
+
 const errors = [];
+const statePages = [];
 const titles = new Map();
 const descriptions = new Map();
 const links = new Map();
@@ -93,6 +114,11 @@ for (const file of await collectHtml(DIST)) {
     }
   }
 
+  if (/^\/states\/[a-z-]+\/index\.html$/.test(page)) {
+    const main = html.match(/<main[\s\S]*?<\/main>/)?.[0] ?? '';
+    statePages.push({ page, noindex, shingles: shingles(visibleText(main)) });
+  }
+
   if (!is404) {
     titles.set(title, [...(titles.get(title) ?? []), page]);
     descriptions.set(description, [...(descriptions.get(description) ?? []), page]);
@@ -109,6 +135,22 @@ for (const [, pages] of descriptions) if (pages.length > 1) errors.push(`duplica
 for (const [href, pages] of links) {
   if (!(await resolves(href))) errors.push(`broken link ${href} on ${[...pages].join(', ')}`);
 }
+
+const report = process.env.STATE_SIMILARITY_REPORT === '1';
+const compared = report ? statePages : statePages.filter((p) => !p.noindex);
+let highest = { score: 0, pair: '' };
+for (let i = 0; i < compared.length; i++) {
+  for (let j = i + 1; j < compared.length; j++) {
+    const score = jaccard(compared[i].shingles, compared[j].shingles);
+    if (score > highest.score) highest = { score, pair: `${compared[i].page} ~ ${compared[j].page}` };
+    if (!report && score > MAX_STATE_SIMILARITY) {
+      errors.push(
+        `state pages too similar (${(score * 100).toFixed(0)}% > ${MAX_STATE_SIMILARITY * 100}%): ${compared[i].page} ~ ${compared[j].page} — add state-specific localContent in src/data/state-laws.ts`,
+      );
+    }
+  }
+}
+if (report) console.log(`state similarity: ${compared.length} pages, highest ${(highest.score * 100).toFixed(0)}% (${highest.pair})`);
 
 if (errors.length) {
   console.error(`verify-site: ${errors.length} problem(s)\n  ${errors.join('\n  ')}`);

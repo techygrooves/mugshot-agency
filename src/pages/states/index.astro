@@ -1,0 +1,40 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import CtaBand from '@components/CtaBand.astro';
+import { stateLaws } from '@data/state-laws';
+
+const byLetter = Object.entries(
+  Object.groupBy(stateLaws, (s) => s.name[0]) as Record<string, typeof stateLaws>,
+);
+---
+<BaseLayout
+  title="Mugshot Removal in All 50 States"
+  description="National Reputation Defense helps people and businesses in every state remove or suppress mugshots and negative search results. Find your state."
+  schema={[{ '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'States', item: new URL('/states/', Astro.site).href }] }]}
+>
+  <PageHero
+    eyebrow="Service area"
+    title="Reputation help in all 50 states"
+    lead="Online content does not stop at state lines, and neither do we. Choose your state for local information and how we can help."
+    crumbs={[{ label: 'States', href: '/states/' }]}
+  />
+  <section class="py-16 md:py-20">
+    <div class="container-x">
+      <div class="prose-body max-w-3xl text-lg">
+        <p>Mugshot and arrest record rules vary widely. Some states require certain websites to remove booking photos free of charge; others limit when law enforcement may release them; many have no mugshot-specific law at all. Each state page explains what applies once our legal review of that state is complete.</p>
+      </div>
+      <div class="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+        {byLetter.map(([letter, states]) => (
+          <div>
+            <h2 class="font-display text-sm font-bold uppercase tracking-wider text-accent-700">{letter}</h2>
+            <ul class="mt-3 space-y-2">
+              {states.map((s) => <li><a href={`/states/${s.slug}/`} class="font-medium text-ink hover:text-accent-700">{s.name}</a></li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>

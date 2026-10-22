@@ -4,6 +4,9 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 import { site } from './src/config/site.ts';
+import { stateLaws, isPublishable } from './src/data/state-laws.ts';
+
+const unpublishedStatePaths = stateLaws.filter((s) => !isPublishable(s)).map((s) => `/states/${s.slug}/`);
 
 /**
  * National Reputation Defense — Astro configuration.
@@ -21,8 +24,11 @@ export default defineConfig({
   build: { format: 'directory' },
   integrations: [
     sitemap({
-      // Placeholder pages carry noindex; they must not be listed either.
-      filter: (page) => !site.noindexPaths.includes(new URL(page).pathname),
+      // Placeholder pages and unreviewed state pages carry noindex; they must not be listed either.
+      filter: (page) => {
+        const { pathname } = new URL(page);
+        return !site.noindexPaths.includes(pathname) && !unpublishedStatePaths.includes(pathname);
+      },
     }),
   ],
   vite: { plugins: [tailwindcss()] },

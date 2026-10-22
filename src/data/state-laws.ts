@@ -34,6 +34,13 @@ export type StateLaw = {
   summary?: string;
   /** Open questions for the reviewer. */
   notes?: string;
+  /**
+   * State-specific paragraphs written for the state page (Phase 6): local
+   * record-relief process, how arrests are published there, common sources.
+   * Required in practice: the build rejects indexable state pages that are
+   * too similar to each other.
+   */
+  localContent?: string[];
   sources: string[];
   reviewed: boolean;
 };
@@ -249,3 +256,10 @@ export const stateLaws: StateLaw[] = [
 ];
 
 export const getStateLaw = (slug: string) => stateLaws.find((st) => st.slug === slug);
+
+/**
+ * A state page is indexable only once counsel has reviewed its entry. Until
+ * then it renders noindex, stays out of the sitemap, and its law section shows
+ * a "being reviewed" notice instead of unverified research.
+ */
+export const isPublishable = (law: StateLaw) => law.reviewed;
