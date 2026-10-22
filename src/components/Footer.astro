@@ -1,5 +1,6 @@
 ---
 import { site, nav } from '@config/site';
+import { disclosures } from '@config/compliance';
 import { services } from '@data/services';
 import Logo from './Logo.astro';
 const year = new Date().getFullYear();
@@ -35,8 +36,8 @@ const year = new Date().getFullYear();
   <div class="border-t border-white/10">
     <div class="container-x space-y-3 py-6 text-xs leading-relaxed text-slate-400">
       <p>
-        <strong class="text-slate-300">{site.name} is not a law firm and does not provide legal advice.</strong>{" "}
-        Our services are not a substitute for the advice of a licensed attorney. Results vary and are never guaranteed; removal decisions rest with third-party websites and search engines. <a href="/legal/disclaimer/" class="underline hover:text-white">Read the full disclaimer</a>.
+        <strong class="text-slate-300">{disclosures.notLawFirm}</strong>{" "}
+        Our services are not a substitute for the advice of a licensed attorney. {disclosures.noGuarantee} <a href="/legal/disclaimer/" class="underline hover:text-white">Read the full disclaimer</a>.
       </p>
       <p>&copy; {year} {site.name}. Serving clients in all 50 states.</p>
     </div>

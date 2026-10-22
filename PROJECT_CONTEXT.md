@@ -25,6 +25,10 @@ Permanent rules for the National Reputation Defense website.
 4. Legal topics (expungement, sealing, defamation) are described generally
    and always point the reader to a licensed attorney.
 5. No pricing is published. Quotes follow a consultation.
+6. Disclosure wording lives in `src/config/compliance.ts` — import it, never
+   retype it. The build rejects prohibited claims (see `docs/COMPLIANCE.md`).
+7. State law content comes only from `src/data/state-laws.ts` entries marked
+   `reviewed: true`.
 
 ## SEO rules
 

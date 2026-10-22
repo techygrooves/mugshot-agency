@@ -1,0 +1,24 @@
+---
+/**
+ * Consent and disclosure block for the consultation form. Rendered inside the
+ * form when it is built; shown with the placeholder until then so the wording
+ * can be reviewed in context.
+ */
+import { disclosures, formConsent } from '@config/compliance';
+
+interface Props {
+  /** Render the SMS checkbox as a live input (true) or a static preview (false). */
+  interactive?: boolean;
+}
+const { interactive = false } = Astro.props;
+---
+<div class="space-y-4 text-sm leading-relaxed text-slate-600">
+  <label class="flex gap-3">
+    <input type="checkbox" name="sms_consent" class="mt-1 h-4 w-4 shrink-0 rounded border-navy-100 accent-accent-600" disabled={!interactive} />
+    <span>{formConsent.sms}</span>
+  </label>
+  <p>
+    {formConsent.contact} See our <a href={formConsent.privacyLink} class="font-medium text-accent-700 underline">Privacy Policy</a>{' '}and{' '}<a href={formConsent.termsLink} class="font-medium text-accent-700 underline">Terms of Service</a>.
+  </p>
+  <p class="text-xs text-slate-500">{disclosures.notLawFirm} {disclosures.noAttorneyClient}</p>
+</div>

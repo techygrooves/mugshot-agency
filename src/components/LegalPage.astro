@@ -1,0 +1,34 @@
+---
+/**
+ * Shell for the legal pages. While `legalDraft` is true the page shows a
+ * draft banner and carries data-placeholder, which the build check requires
+ * to be noindex (see site.noindexPaths).
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/PageHero.astro';
+import { legalDraft, legalEffectiveDate } from '@config/compliance';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+}
+const { title, description, path } = Astro.props;
+---
+<BaseLayout title={title} description={description}>
+  <PageHero title={title} crumbs={[{ label: title, href: path }]} />
+  <section class="py-16">
+    <div class="container-x max-w-3xl">
+      {legalDraft ? (
+        <div class="rounded-xl border border-gold-400/50 bg-gold-400/10 p-5 text-sm text-amber-900" data-placeholder={`legal${path.replace(/\//g, '-')}`}>
+          <strong>Draft — under legal review.</strong> This policy is not yet in effect and will be finalized before we accept client inquiries online.
+        </div>
+      ) : (
+        legalEffectiveDate && <p class="text-sm text-slate-500">Effective {legalEffectiveDate}</p>
+      )}
+      <div class="prose-body mt-6">
+        <slot />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
