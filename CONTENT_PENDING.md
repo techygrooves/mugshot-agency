@@ -12,10 +12,10 @@ Items needed before launch. Nothing here may be filled in with invented text.
 | State mugshot-law review | Research done for all 50 states, 0 reviewed | `docs/STATE_LAW_REVIEW.md`, then `reviewed: true` in `src/data/state-laws.ts` |
 | Open legal questions | See the ⚖️ items | `docs/COMPLIANCE.md` |
 | Testimonials | None — only real clients with written consent | Not yet on site |
-| State page local content | None yet — each state needs state-specific paragraphs before it can publish | `localContent` in `src/data/state-laws.ts` |
+| State page local content | Drafted for all 50 states — review together with each state's law entry | `src/data/state-local-content.ts`; included in `docs/STATE_LAW_REVIEW.md` |
 
 ## Next build phases
 
 1. ~~50 state pages~~ built (Phase 3); publish each after review + local content
-2. Resources: 3 launch guides built (Phase 3); 7–12 more in Phase 6
+2. ~~Resources~~: 11 guides (3 in Phase 3, 8 in Phase 6) — every service links at least one
 3. Consultation form, analytics, Search Console (Phases 7–8)

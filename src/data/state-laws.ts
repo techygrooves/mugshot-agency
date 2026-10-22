@@ -45,6 +45,8 @@ export type StateLaw = {
   reviewed: boolean;
 };
 
+import { stateLocalContent } from './state-local-content.ts';
+
 const NCSL = 'https://www.ncsl.org/technology-and-communication/mug-shots-and-booking-photo-websites';
 
 const s = (
@@ -58,6 +60,7 @@ const s = (
   slug: name.toLowerCase().replace(/\s+/g, '-'),
   status,
   sources: [],
+  localContent: stateLocalContent[abbr],
   ...rest,
   reviewed: false,
 });
@@ -262,4 +265,11 @@ export const getStateLaw = (slug: string) => stateLaws.find((st) => st.slug === 
  * then it renders noindex, stays out of the sitemap, and its law section shows
  * a "being reviewed" notice instead of unverified research.
  */
-export const isPublishable = (law: StateLaw) => law.reviewed;
+export const isPublishable = (law: StateLaw) => law.reviewed || previewAllStates;
+
+/**
+ * STATE_PUBLISH_ALL=1 renders every state as if reviewed. It exists only to
+ * measure state-page similarity before review (see README) and must never be
+ * set for a deploy.
+ */
+const previewAllStates = globalThis.process?.env?.STATE_PUBLISH_ALL === '1';

@@ -35,7 +35,7 @@ Summary: 18 states with a law identified, 8 unconfirmed, 24 none found — **0 r
 | --- | --- |
 | ✅ | Research compiled with sources and open questions per state |
 | ✅ | Every entry starts `reviewed: false`. State pages (Phase 3) show a "being reviewed" notice instead of unreviewed research, and stay `noindex` and out of the sitemap until the entry is reviewed |
-| ⚖️ | Review each entry against the current official code and set `reviewed: true` |
+| ⚖️ | Review each entry against the current official code — together with its drafted page copy (record-relief terms, criminal-history repository) — and set `reviewed: true` |
 | ⚖️ | Most laws regulate **publishers** that charge removal fees, or agencies releasing photos. Confirm how they apply to a third-party service that charges its clients, particularly Illinois and Ohio ("any person engaged in publishing…"), Louisiana (fee demands prosecutable as extortion) and Texas ch. 109 |
 | ⚖️ | Operating rule to confirm: the company never pays a publisher's removal fee on a client's behalf in a state that prohibits charging it |
 

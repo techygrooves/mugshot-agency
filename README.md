@@ -48,11 +48,20 @@ counsel reviews that state. To publish one:
 
 1. Have counsel confirm its entry in `src/data/state-laws.ts` (citation,
    summary, sources) and set `reviewed: true`.
-2. Add `localContent`: a few paragraphs of genuinely state-specific
-   information. The build fails if a published state page shares more than
-   60% of its text with another (`STATE_SIMILARITY_REPORT=1 npm run verify`
-   prints the current figures).
-3. `npm run report:state-laws` and `npm run build`.
+   Review the drafted page copy for that state at the same time
+   (`src/data/state-local-content.ts`, shown in the review document); it
+   renders only once the entry is reviewed.
+2. `npm run report:state-laws` and `npm run build`.
+
+The build fails if a published state page shares more than 60% of its text
+with another. To measure that before any review, render every state as if
+reviewed (never for a deploy):
+
+```sh
+STATE_PUBLISH_ALL=1 npx astro build && STATE_SIMILARITY_REPORT=1 npm run verify
+```
+
+With the drafted copy, the most similar pair is 54%.
 
 ## Where things live
 
