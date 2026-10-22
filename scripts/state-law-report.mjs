@@ -35,13 +35,19 @@ const lines = [
   '',
 ];
 
-for (const s of stateLaws.filter((st) => st.status !== 'none-found' || st.notes)) {
+for (const s of stateLaws) {
   lines.push(`## ${s.name}`, '');
   lines.push(`- **Status:** ${label[s.status]}`);
   if (s.citation) lines.push(`- **Citation:** ${s.citation}${s.year ? ` (${s.year})` : ''}`);
   if (s.summary) lines.push(`- **Summary:** ${s.summary}`);
   if (s.notes) lines.push(`- **Open questions:** ${s.notes}`);
   if (s.sources.length) lines.push(`- **Sources:** ${s.sources.map((u) => `<${u}>`).join(', ')}`);
+  if (s.localContent?.length) {
+    lines.push('- **Draft page copy (review with the entry):**', '');
+    for (const p of s.localContent) lines.push(`  > ${p}`, '  >');
+    lines.pop();
+    lines.push('');
+  }
   lines.push(`- **Reviewed by counsel:** ${s.reviewed ? 'Yes' : 'No'}`, '');
 }
 

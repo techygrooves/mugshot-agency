@@ -35,7 +35,7 @@ Summary: 18 states with a law identified, 8 unconfirmed, 24 none found — **0 r
 | --- | --- |
 | ✅ | Research compiled with sources and open questions per state |
 | ✅ | Every entry starts `reviewed: false`. State pages (Phase 3) show a "being reviewed" notice instead of unreviewed research, and stay `noindex` and out of the sitemap until the entry is reviewed |
-| ⚖️ | Review each entry against the current official code and set `reviewed: true` |
+| ⚖️ | Review each entry against the current official code — together with its drafted page copy (record-relief terms, criminal-history repository) — and set `reviewed: true` |
 | ⚖️ | Most laws regulate **publishers** that charge removal fees, or agencies releasing photos. Confirm how they apply to a third-party service that charges its clients, particularly Illinois and Ohio ("any person engaged in publishing…"), Louisiana (fee demands prosecutable as extortion) and Texas ch. 109 |
 | ⚖️ | Operating rule to confirm: the company never pays a publisher's removal fee on a client's behalf in a state that prohibits charging it |
 
@@ -44,7 +44,9 @@ Summary: 18 states with a law identified, 8 unconfirmed, 24 none found — **0 r
 | Done | Item |
 | --- | --- |
 | ✅ | Draft Privacy Policy and Terms of Service at `/legal/privacy/` and `/legal/terms/`, shown with a "Draft — under legal review" banner and kept `noindex` until approved |
-| ✅ | Consent wording for the future consultation form (`formConsent` in `src/config/compliance.ts`, rendered by `ConsentNotice.astro`): unticked SMS checkbox, consent not a condition of service, STOP opt-out (TCPA); email contact limited to the request (CAN-SPAM for any marketing email) |
+| ✅ | Consultation form live (Phase 7) on `/contact/` and the home page, submitting to Formspree (`site.forms.consultation`). Consent wording from `formConsent` in `src/config/compliance.ts`: optional, unticked SMS checkbox; consent not a condition of service; STOP opt-out (TCPA); email contact limited to the request (CAN-SPAM for any marketing email). The submitted `sms_consent` value is the record of consent — keep submissions |
+| ⚖️ | **The form now collects personal information while the Privacy Policy and Terms are still drafts.** Finalize them promptly. Confirm with counsel that Formspree's terms and data handling are acceptable for the sensitive details people may describe, and consider a data processing agreement |
+| ⬜ | Decide how long submissions are kept in Formspree and the inbox it forwards to, and delete on that schedule |
 | ✅ | No analytics or advertising cookies are used, and the Privacy Policy says so. Update the policy before adding any |
 | ⚖️ | Approve Privacy Policy and Terms text; fill in governing law and privacy contact; then set `legalDraft = false`, add `legalEffectiveDate`, and remove the pages from `site.noindexPaths` |
 | ⚖️ | Confirm obligations under state privacy laws (e.g. CCPA/CPRA) given expected client volume and the sensitivity of criminal-record information |

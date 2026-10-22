@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { stateLaws } from '../src/data/state-laws.ts';
+import { stateLocalContent } from '../src/data/state-local-content.ts';
 
 test('covers exactly the 50 states, once each', () => {
   assert.equal(stateLaws.length, 50);
@@ -26,4 +27,15 @@ test('every unconfirmed entry explains what is unconfirmed', () => {
 
 test('sources are https URLs', () => {
   for (const s of stateLaws) for (const u of s.sources) assert.match(u, /^https:\/\/\S+$/, `${s.name}: ${u}`);
+});
+
+test('every state has drafted local content that names the state and points to an attorney', () => {
+  assert.deepEqual(Object.keys(stateLocalContent).sort(), stateLaws.map((s) => s.abbr).sort());
+  for (const s of stateLaws) {
+    const text = (s.localContent ?? []).join(' ');
+    assert.ok((s.localContent ?? []).length >= 2, `${s.name}: at least two paragraphs`);
+    assert.ok(text.includes(s.name), `${s.name}: mentions the state by name`);
+    assert.match(text, /attorney/, `${s.name}: points legal questions to an attorney`);
+    assert.doesNotMatch(text, /guarantee|will be removed|always qualif/i, `${s.name}: no promises`);
+  }
 });

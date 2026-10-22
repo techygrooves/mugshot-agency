@@ -21,7 +21,8 @@ export default defineConfig({
   site: site.url,
   output: 'static',
   trailingSlash: 'always',
-  build: { format: 'directory' },
+  // Never inline CSS into <style> tags: the CSP allows same-origin stylesheets only.
+  build: { format: 'directory', inlineStylesheets: 'never' },
   integrations: [
     sitemap({
       // Placeholder pages and unreviewed state pages carry noindex; they must not be listed either.
