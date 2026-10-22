@@ -9,6 +9,7 @@ import PageHero from '@components/PageHero.astro';
 import FaqList from '@components/FaqList.astro';
 import CtaBand from '@components/CtaBand.astro';
 import Icon from '@components/Icon.astro';
+import AssuranceCard from '@components/AssuranceCard.astro';
 import { site, cta } from '@config/site';
 import { disclosures } from '@config/compliance';
 import { services } from '@data/services';
@@ -86,6 +87,7 @@ const schema = [
     crumbs={[{ label: 'States', href: '/states/' }, { label: name, href: `/states/${law.slug}/` }]}
   >
     <div class="mt-8"><a href={cta.href} class="btn-primary">{cta.label}</a></div>
+    <AssuranceCard slot="aside" icon="shield" title={`Serving clients in ${name}`} />
   </PageHero>
 
   {law.localContent && law.localContent.length > 0 && (

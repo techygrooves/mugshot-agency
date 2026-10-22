@@ -37,7 +37,28 @@
     @apply bg-white font-sans text-slate-700 antialiased;
   }
   h1, h2, h3, h4 {
-    @apply font-display text-ink tracking-tight;
+    @apply font-display text-ink tracking-tight text-balance;
+  }
+  p, li {
+    text-wrap: pretty;
+  }
+  ::selection {
+    @apply bg-accent-100 text-ink;
+  }
+  /* Room for the sticky mobile CTA bar (Header.astro) so it never covers the footer. */
+  body:has([data-mobile-cta]) {
+    @apply max-sm:pb-20;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
   }
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-accent-600;
